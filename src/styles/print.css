@@ -1,0 +1,24 @@
+/* PDF export: clean black-on-white pages, no wallpaper, no app chrome. */
+@media print {
+  @page { margin: 18mm 16mm; }
+
+  :root {
+    --bg: #ffffff; --text: #1d1d1f; --muted: #555; --heading: #000; --link: #1a4fa3;
+    --border: #d0d0d0; --code-bg: #f4f4f6; --quote-bar: #bbb;
+  }
+
+  html, body { height: auto; overflow: visible; background: #fff !important; color: #1d1d1f; }
+  #wallpaper, .no-print, .panel { display: none !important; }
+
+  #scroller { position: static; overflow: visible; padding: 0; }
+  #doc {
+    max-width: none; margin: 0; padding: 0;
+    background: none !important; backdrop-filter: none !important; border-radius: 0;
+    font-size: 11.5pt; line-height: 1.6;
+  }
+
+  .markdown-body h1, .markdown-body h2, .markdown-body h3 { break-after: avoid; page-break-after: avoid; }
+  .markdown-body pre, .markdown-body blockquote, .markdown-body table, .markdown-body img { break-inside: avoid; page-break-inside: avoid; }
+  .markdown-body pre { white-space: pre-wrap; word-break: break-word; }
+  .markdown-body a { color: #1a4fa3; }
+}

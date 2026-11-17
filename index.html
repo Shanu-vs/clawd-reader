@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MD Reader</title>
+  </head>
+  <body>
+    <!-- Live wallpaper fills the whole window behind everything -->
+    <canvas id="wallpaper" aria-hidden="true"></canvas>
+
+    <header id="toolbar" class="no-print">
+      <div class="toolbar-group">
+        <button id="btn-open" title="Open a Markdown file (O)">Open</button>
+        <button id="btn-toc" title="Table of contents (C)">Contents</button>
+      </div>
+      <div id="doc-title" class="toolbar-title">MD Reader</div>
+      <div class="toolbar-group">
+        <button id="btn-mode" title="Switch light / dark (T)" aria-label="Switch light or dark">◐</button>
+        <button id="btn-focus" title="Focus mode (F)">Focus</button>
+        <button id="btn-pdf" title="Export as PDF (P)">Export PDF</button>
+        <button id="btn-settings" title="Settings (S)" aria-label="Settings">⚙</button>
+      </div>
+      <input id="file-input" type="file" accept=".md,.markdown,.mdown,.mkd,.txt,text/markdown,text/plain" hidden />
+    </header>
+
+    <div id="progress" class="no-print"><div id="progress-bar"></div></div>
+
+    <nav id="toc" class="panel no-print" aria-label="Table of contents" hidden>
+      <div class="panel-head">
+        <span>Contents</span>
+        <button class="panel-close" data-close="toc" aria-label="Close contents">×</button>
+      </div>
+      <ol id="toc-list"></ol>
+    </nav>
+
+    <main id="scroller">
+      <article id="doc" class="markdown-body"></article>
+      <footer id="doc-meta" class="no-print"></footer>
+    </main>
+
+    <aside id="settings" class="panel no-print" aria-label="Settings" hidden></aside>
+
+    <div id="place-banner" class="no-print" aria-live="polite"></div>
+
+    <div id="drop-overlay" class="no-print" hidden><div>Drop your Markdown file</div></div>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

@@ -96,3 +96,7 @@ src-tauri/                desktop wrapper (Rust)
 - [ ] Open `.md` files by double-clicking them in Explorer
 - [ ] Auto-reload when the file changes on disk
 - [ ] Share button and GitHub Releases installer builds
+
+## Credits
+
+Claw'd, the Claude crab, is Anthropic's character. This is an unofficial, fan-made project and is not affiliated with or endorsed by Anthropic.

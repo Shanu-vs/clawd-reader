@@ -8,3 +8,4 @@ Thumbs.db
 
 # Local editor / assistant settings
 .claude/
+src-tauri/target-test/

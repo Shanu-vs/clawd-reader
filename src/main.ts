@@ -201,6 +201,31 @@ const editor = new Editor({
 /** Before replacing the document: leave edit mode, asking first if there are unsaved changes. */
 const canLeave = () => editor.stop();
 
+// ---------- Window: the toolbar is the title bar (desktop) ----------
+if (isDesktop) {
+  import("@tauri-apps/api/window").then(async ({ getCurrentWindow }) => {
+    const win = getCurrentWindow();
+    document.body.classList.add("custom-titlebar");
+    $("win-controls").hidden = false;
+    const maxBtn = $("win-max");
+    const syncMax = async () => {
+      const max = await win.isMaximized().catch(() => false);
+      maxBtn.dataset.icon = max ? "restore" : "maximize";
+      maxBtn.title = max ? "Restore down" : "Maximise";
+      maxBtn.setAttribute("aria-label", maxBtn.title);
+      applyIcons(maxBtn.parentElement!);
+    };
+    $("win-min").onclick = () => win.minimize();
+    maxBtn.onclick = () => win.toggleMaximize();
+    $("win-close").onclick = () => win.close();
+    await win.onResized(syncMax);
+    syncMax();
+  });
+}
+// Like other Windows apps, the title bar dims while the window isn't active.
+window.addEventListener("blur", () => document.body.classList.add("inactive"));
+window.addEventListener("focus", () => document.body.classList.remove("inactive"));
+
 // Don't lose edits when the window is closed.
 if (isDesktop) {
   import("@tauri-apps/api/window").then(({ getCurrentWindow }) => {

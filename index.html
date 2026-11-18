@@ -9,8 +9,8 @@
     <!-- Live wallpaper fills the whole window behind everything -->
     <canvas id="wallpaper" aria-hidden="true"></canvas>
 
-    <header id="toolbar" class="no-print">
-      <div class="toolbar-group">
+    <header id="toolbar" class="no-print" data-tauri-drag-region>
+      <div class="toolbar-group" data-tauri-drag-region>
         <button id="btn-open" class="tb" data-icon="open" title="Open a Markdown file (O)"><span>Open</span></button>
         <button id="btn-toc" class="tb" data-icon="contents" title="Table of contents (C)"><span>Contents</span></button>
         <div id="edit-group" class="split-btn">
@@ -19,12 +19,17 @@
           <div id="save-menu" class="dropdown" role="menu" hidden></div>
         </div>
       </div>
-      <div id="doc-title" class="toolbar-title">MD Reader</div>
-      <div class="toolbar-group">
+      <div id="doc-title" class="toolbar-title" data-tauri-drag-region>MD Reader</div>
+      <div class="toolbar-group" data-tauri-drag-region>
         <button id="btn-mode" class="tb icon" data-icon="theme" title="Switch light / dark (T)" aria-label="Switch light or dark"></button>
         <button id="btn-focus" class="tb icon" data-icon="focus" title="Focus mode (F)" aria-label="Focus mode"></button>
         <button id="btn-pdf" class="tb icon" data-icon="pdf" title="Export as PDF (P)" aria-label="Export as PDF"></button>
         <button id="btn-settings" class="tb icon" data-icon="settings" title="Settings (S)" aria-label="Settings"></button>
+      </div>
+      <div id="win-controls" hidden>
+        <button id="win-min" data-icon="minimize" title="Minimise" aria-label="Minimise"></button>
+        <button id="win-max" data-icon="maximize" title="Maximise" aria-label="Maximise"></button>
+        <button id="win-close" data-icon="close" title="Close" aria-label="Close"></button>
       </div>
       <input id="file-input" type="file" accept=".md,.markdown,.mdown,.mkd,.txt,text/markdown,text/plain" hidden />
     </header>

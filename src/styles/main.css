@@ -537,3 +537,20 @@ body.editing.dirty #doc-title::after { content: "  ·  Unsaved changes"; }
 @media (max-width: 720px) {
   #editor { padding: 24px 18px 32px; }
 }
+
+/* ---------- Toolbar as the window title bar (desktop) ---------- */
+#win-controls { display: flex; align-self: stretch; margin-right: -14px; margin-left: 4px; }
+#win-controls[hidden] { display: none; }
+#win-controls button {
+  width: 46px; height: 100%;
+  display: grid; place-items: center;
+  border: none; border-radius: 0; background: none;
+  color: var(--text);
+}
+#win-controls button:hover { background: var(--code-bg); }
+#win-controls #win-close:hover { background: #c42b1c; color: #fff; }
+body.custom-titlebar #toolbar { user-select: none; -webkit-user-select: none; }
+/* Inactive window: quieter title bar, like native Windows apps. */
+body.inactive #toolbar .tb, body.inactive #win-controls button, body.inactive .toolbar-title { opacity: 0.55; }
+body.inactive #toolbar #btn-edit.primary { opacity: 0.8; }
+:root[data-theme="pixel"] #win-controls button { border-radius: 0; }

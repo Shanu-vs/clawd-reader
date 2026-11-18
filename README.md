@@ -44,6 +44,23 @@
 
 To uninstall: **Settings → Apps → Installed apps → MD Reader → Uninstall**.
 
+## Is it safe?
+
+That blue *"Windows protected your PC"* screen is fair to worry about, so here is exactly what's going on.
+
+**Why Windows warns you.** The warning doesn't mean a virus was found. Windows shows it for any app that isn't *code-signed* (signing certificates cost a few hundred dollars a year) and hasn't been downloaded by many people yet. Every new indie app gets it, and it fades as more people install it.
+
+**How you can check for yourself:**
+- **Virus scan:** [VirusTotal report for the 0.4.0 installer](https://www.virustotal.com/gui/file/52379cf819bbdf66a56559829ffd0936b73971f9bb3ef14b7ed4648f47ca409b). 69 of 71 antivirus engines find nothing, including Microsoft Defender, Kaspersky, Bitdefender, ESET, Norton, Avast, McAfee and Malwarebytes. The other 2 (Arctic Wolf and SecureAge) are strict engines that often flag new, unsigned installers they haven't seen before; these "false positives" are common for small apps. The report is public, so you can read it yourself.
+- **Same file as released:** each release lists the installer's SHA-256 checksum. In PowerShell, `Get-FileHash .\MD-Reader_0.4.0_x64-setup.exe` should print the same value.
+- **Open source:** every line of code is in this repository under the [MIT licence](LICENSE). You can read it, or build the installer yourself (see [For developers](#for-developers)).
+
+**What the app does and doesn't do:**
+- It opens only the Markdown files you choose, and the pictures they link to.
+- It writes to a file only when you press **Save**.
+- It has no account, no ads, no analytics and no auto-updater. The app is locked so it **can't send data anywhere** (its content security policy blocks all network requests). The only things it may download are pictures that your own document links to on the web.
+- It installs just for your user, with no admin rights, and the uninstaller removes it. Tick *"Delete the application data"* there to remove your settings too.
+
 ## Screenshots
 
 | Pixel world (Pixel Quest theme) | Study notes with the contents panel |
@@ -125,7 +142,7 @@ The pixel world has six places: Green Meadow, Sunny Beach, Snowy Peaks, Desert C
 
 **Mac or Linux?** Windows 10 and 11 only for now.
 
-**Why does Windows warn me when installing?** The installer isn't code-signed, so SmartScreen doesn't recognise it yet. You can check the source here and build it yourself (see below).
+**Why does Windows warn me when installing?** The installer isn't code-signed, so SmartScreen doesn't recognise it yet. See [Is it safe?](#is-it-safe) for the virus scan and how to check the file.
 
 **Does it need the internet?** No. It only loads pictures from the web if your document links to them.
 

@@ -34,7 +34,7 @@
 
 ## Install
 
-1. **[Download the latest `MD Reader_…_x64-setup.exe`](https://github.com/Shanu-vs/clawd-reader/releases/latest)** from the Releases page.
+1. **[Download the latest `MD-Reader_…_x64-setup.exe`](https://github.com/Shanu-vs/clawd-reader/releases/latest)** from the Releases page.
 2. Double-click it. If Windows says *"Windows protected your PC"*, click **More info → Run anyway**. (The app isn't code-signed yet; signing certificates cost money, so many small open-source apps show this.)
 3. Click through the setup. No admin rights needed.
 4. Find **MD Reader** in the Start menu or Windows search.

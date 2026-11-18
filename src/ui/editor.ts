@@ -1,6 +1,7 @@
 // Edit mode. Documents always open for reading; "Edit" swaps the page for its Markdown source,
 // and the same button becomes "Save" (with a small menu for "Save as…" and leaving without saving).
 import { askYesNo, isDesktop, pickSavePath, writePath } from "../desktop";
+import { icon } from "./icons";
 
 export interface EditorHost {
   scroller: HTMLElement;
@@ -174,7 +175,7 @@ export class Editor {
 
   private refresh(): void {
     const dirty = this.dirty;
-    this.btn.textContent = this.editing ? "Save" : "Edit";
+    this.btn.innerHTML = `${icon(this.editing ? "save" : "edit")}<span>${this.editing ? "Save" : "Edit"}</span>`;
     this.btn.title = this.editing ? "Save changes (Ctrl+S)" : "Edit this document (E)";
     this.btn.classList.toggle("primary", this.editing);
     this.btn.classList.toggle("dirty", dirty);

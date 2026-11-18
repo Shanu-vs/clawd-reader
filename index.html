@@ -11,22 +11,20 @@
 
     <header id="toolbar" class="no-print">
       <div class="toolbar-group">
-        <button id="btn-open" title="Open a Markdown file (O)">Open</button>
-        <button id="btn-toc" title="Table of contents (C)">Contents</button>
+        <button id="btn-open" class="tb" data-icon="open" title="Open a Markdown file (O)"><span>Open</span></button>
+        <button id="btn-toc" class="tb" data-icon="contents" title="Table of contents (C)"><span>Contents</span></button>
         <div id="edit-group" class="split-btn">
-          <button id="btn-edit" title="Edit this document (E)">Edit</button>
-          <button id="btn-save-menu" class="split-caret" title="More save options" aria-label="More save options" aria-haspopup="menu" aria-expanded="false" hidden>
-            <svg viewBox="0 0 12 12" width="10" height="10" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </button>
+          <button id="btn-edit" class="tb" title="Edit this document (E)"></button>
+          <button id="btn-save-menu" class="tb split-caret" data-icon="chevron" title="More save options" aria-label="More save options" aria-haspopup="menu" aria-expanded="false" hidden></button>
           <div id="save-menu" class="dropdown" role="menu" hidden></div>
         </div>
       </div>
       <div id="doc-title" class="toolbar-title">MD Reader</div>
       <div class="toolbar-group">
-        <button id="btn-mode" title="Switch light / dark (T)" aria-label="Switch light or dark">◐</button>
-        <button id="btn-focus" title="Focus mode (F)">Focus</button>
-        <button id="btn-pdf" title="Export as PDF (P)">Export PDF</button>
-        <button id="btn-settings" title="Settings (S)" aria-label="Settings">⚙</button>
+        <button id="btn-mode" class="tb icon" data-icon="theme" title="Switch light / dark (T)" aria-label="Switch light or dark"></button>
+        <button id="btn-focus" class="tb icon" data-icon="focus" title="Focus mode (F)" aria-label="Focus mode"></button>
+        <button id="btn-pdf" class="tb icon" data-icon="pdf" title="Export as PDF (P)" aria-label="Export as PDF"></button>
+        <button id="btn-settings" class="tb icon" data-icon="settings" title="Settings (S)" aria-label="Settings"></button>
       </div>
       <input id="file-input" type="file" accept=".md,.markdown,.mdown,.mkd,.txt,text/markdown,text/plain" hidden />
     </header>

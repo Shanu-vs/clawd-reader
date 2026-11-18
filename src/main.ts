@@ -13,11 +13,13 @@ import { WallpaperHost } from "./wallpaper/host";
 import { buildSettingsPanel } from "./ui/settingsPanel";
 import { isDesktop, loadLocalImages, onFileDrop, pickFile, readPath, setWindowTitle, splitPath, startupFile, type OpenedFile } from "./desktop";
 import { Editor } from "./ui/editor";
+import { applyIcons } from "./ui/icons";
 import { ContentsPanel, isNarrow } from "./ui/contents";
 import { makeFloating } from "./ui/floating";
 import { installQuickMenu } from "./ui/quickMenu";
 
 const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
+applyIcons();
 
 const doc = $<HTMLElement>("doc");
 const scroller = $<HTMLElement>("scroller");

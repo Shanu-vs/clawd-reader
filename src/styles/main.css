@@ -75,7 +75,19 @@ button:focus-visible, select:focus-visible, input:focus-visible { outline: 2px s
   overflow: hidden;
   text-overflow: ellipsis;
 }
-#btn-mode, #btn-settings { width: 36px; padding: 6px 0; }
+/* Toolbar buttons are quiet (no outline) so only the main action stands out. */
+#toolbar .tb {
+  display: inline-flex; align-items: center; gap: 7px;
+  height: 34px; padding: 0 11px;
+  border-color: transparent; border-radius: 7px;
+  color: var(--text); font-size: 14px;
+}
+#toolbar .tb:hover { background: var(--code-bg); border-color: transparent; }
+#toolbar .tb:active { transform: translateY(0.5px); }
+#toolbar .tb.icon { width: 36px; padding: 0; justify-content: center; }
+#toolbar .tb .ic { flex: none; opacity: 0.9; }
+#toolbar .tb.active { color: var(--accent); background: color-mix(in srgb, var(--accent) 14%, transparent); }
+#toolbar .tb:disabled { opacity: 0.4; cursor: default; background: none; }
 
 /* Focus mode: chrome fades out until you hover near the top */
 body.focus #toolbar { opacity: 0; }
@@ -208,6 +220,10 @@ body.focus #progress { opacity: 0.4; }
   #doc { padding: 26px 20px 32px; }
   .toolbar-title { display: none; }
   #btn-pdf, #btn-focus { display: none; }
+}
+@media (max-width: 900px) {
+  #btn-toc span { display: none; }
+  #toolbar #btn-toc { width: 36px; padding: 0; justify-content: center; }
 }
 
 /* ---------- Pixel Quest theme: chunky retro game UI ---------- */
@@ -446,18 +462,14 @@ body.focus #progress { opacity: 0.4; }
 /* Edit / Save: one button that becomes a split button (Save | ▾) while editing. */
 .split-btn { position: relative; display: inline-flex; }
 .split-btn.split #btn-edit { border-top-right-radius: 0; border-bottom-right-radius: 0; }
-.split-caret {
-  display: inline-grid; place-items: center;
-  margin-left: -1px; padding: 6px 8px;
-  border-top-left-radius: 0; border-bottom-left-radius: 0;
-}
-.split-caret[hidden] { display: none; }
-#btn-edit.primary, #btn-edit.primary + .split-caret {
+#toolbar .split-caret { width: 28px; padding: 0; justify-content: center; margin-left: 1px; border-top-left-radius: 0; border-bottom-left-radius: 0; }
+.split-caret[hidden] { display: none !important; }
+/* The one filled, accent-coloured button: Save while editing. */
+#toolbar #btn-edit.primary, #toolbar #btn-edit.primary + .split-caret {
   background: var(--accent); border-color: var(--accent);
   color: rgb(var(--backdrop-rgb));
 }
-#btn-edit.primary:hover, #btn-edit.primary + .split-caret:hover { filter: brightness(1.08); }
-#btn-edit.primary + .split-caret { border-left-color: rgba(var(--backdrop-rgb), 0.35); }
+#toolbar #btn-edit.primary:hover, #toolbar #btn-edit.primary + .split-caret:hover { filter: brightness(1.08); background: var(--accent); }
 
 .dropdown {
   position: absolute; top: calc(100% + 6px); left: 0; z-index: 60;

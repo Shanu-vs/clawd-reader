@@ -119,3 +119,13 @@
 .markdown-body table caption { caption-side: top; margin: 0 0 0.5em; }
 .markdown-body figcaption strong, .markdown-body table caption strong { color: var(--heading); }
 .markdown-body .page-break { display: none; }
+
+/* Task lists ("- [x] done") */
+.markdown-body ul.task-list { list-style: none; padding-left: 0.4em; }
+.markdown-body li.task { display: flex; gap: 0.6em; align-items: baseline; }
+.markdown-body li.task > p { margin: 0; }
+.markdown-body li.task input[type="checkbox"] {
+  flex: none; width: 1em; height: 1em; margin: 0; transform: translateY(0.12em);
+  accent-color: var(--accent); opacity: 1;
+}
+.markdown-body li.task:has(> input:checked), .markdown-body li.task:has(> p > input:checked) { color: var(--muted); }

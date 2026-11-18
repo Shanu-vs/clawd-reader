@@ -211,6 +211,23 @@ function postprocess(html: string, opts: RenderOptions): string {
     p.remove();
   }
 
+  // Task lists: "- [ ] todo" and "- [x] done" become (read-only) checkboxes, like on GitHub.
+  for (const li of Array.from(root.querySelectorAll("li"))) {
+    const holder = li.firstElementChild?.tagName === "P" ? li.firstElementChild : li;
+    const first = holder.firstChild;
+    if (!first || first.nodeType !== Node.TEXT_NODE) continue;
+    const m = /^\[([ xX])\]\s+/.exec(first.textContent ?? "");
+    if (!m) continue;
+    first.textContent = (first.textContent ?? "").slice(m[0].length);
+    const box = document.createElement("input");
+    box.type = "checkbox";
+    box.disabled = true;
+    box.defaultChecked = m[1] !== " "; // the attribute, so it survives turning the DOM back into HTML
+    holder.insertBefore(box, first);
+    li.classList.add("task");
+    li.parentElement?.classList.add("task-list");
+  }
+
   const div = document.createElement("div");
   div.append(root);
   return div.innerHTML;

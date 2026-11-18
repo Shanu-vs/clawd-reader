@@ -47,7 +47,7 @@ It is a real desktop app built with [Tauri](https://tauri.app), so it uses Windo
 
 ### Themes
 - **Paper**, in White, Sepia, Sage and Rose.
-- **Night**, in Indigo, Ocean, Forest, Purple, Ember (warm, low blue light) and Graphite.
+- **Night**, in Indigo, Ocean, Forest, Purple, Ember (warm, low blue light), Graphite and OLED (true black, easy on battery and eyes at night).
 - **Pixel Quest**: a chunky retro-game look with a pixel font.
 - **High Contrast**.
 - A one-click light/dark switch remembers your favourite of each.

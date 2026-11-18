@@ -162,6 +162,21 @@ export const THEMES: Theme[] = [
     },
   },
   {
+    // True black for OLED screens: black pixels are switched off, so this saves battery and
+    // has no glow at night. Text is soft grey (not pure white) to avoid smearing and glare.
+    id: "oled",
+    name: "OLED Black",
+    family: "night",
+    variant: "OLED",
+    mode: "dark",
+    vars: {
+      bg: "#000000", text: "#c4c7cf", muted: "#7b808c", heading: "#e2e4ea", link: "#8fa8d8",
+      accent: "#7f9ccf", border: "rgba(255,255,255,0.08)", panel: "rgba(0,0,0,0.94)",
+      backdrop: "0, 0, 0", codeBg: "rgba(255,255,255,0.05)", quoteBar: "#2c3038",
+      star: "#8e96a8", starGlow: "#7f9ccf",
+    },
+  },
+  {
     id: "pixel",
     name: "Pixel Quest",
     family: "pixel",

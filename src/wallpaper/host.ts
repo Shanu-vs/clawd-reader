@@ -115,7 +115,7 @@ export class WallpaperHost {
 
   private isStatic(): boolean {
     const s = getSettings();
-    return !this.effect || (s.respectReducedMotion && this.reducedMotion.matches);
+    return !this.effect || s.wpPaused || (s.respectReducedMotion && this.reducedMotion.matches);
   }
 
   private frameContext(time: number): FrameContext {

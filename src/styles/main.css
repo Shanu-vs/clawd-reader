@@ -88,6 +88,7 @@ button:focus-visible, select:focus-visible, input:focus-visible { outline: 2px s
 #toolbar .tb .ic { flex: none; opacity: 0.9; }
 #toolbar .tb.active { color: var(--accent); background: color-mix(in srgb, var(--accent) 14%, transparent); }
 #toolbar .tb:disabled { opacity: 0.4; cursor: default; background: none; }
+#toolbar .tb[hidden] { display: none; }
 
 /* Focus mode: chrome fades out until you hover near the top */
 body.focus #toolbar { opacity: 0; }

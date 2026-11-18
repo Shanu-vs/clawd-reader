@@ -51,6 +51,16 @@ function applyAppearance(s: Settings): void {
   root.setProperty("--backdrop-blur", `${s.backdropBlur}px`);
   document.body.classList.toggle("focus", s.focusMode);
   $("btn-focus").classList.toggle("active", s.focusMode);
+  // Pause / play the moving background (a visible control, as accessibility guidelines ask for).
+  const pause = $("btn-pause");
+  pause.hidden = s.wallpaper === "none";
+  if (pause.dataset.icon !== (s.wpPaused ? "play" : "pause")) {
+    pause.dataset.icon = s.wpPaused ? "play" : "pause";
+    applyIcons(pause.parentElement!);
+  }
+  pause.title = s.wpPaused ? "Play the moving background (W)" : "Pause the moving background (W)";
+  pause.setAttribute("aria-label", pause.title.replace(/ \(W\)$/, ""));
+  pause.classList.toggle("active", s.wpPaused);
 }
 
 // First launch: follow the Windows light/dark preference.
@@ -339,6 +349,7 @@ const actions = {
   edit: () => editor.start(),
   settings: () => togglePanel(settingsEl),
   focus: () => updateSettings({ focusMode: !getSettings().focusMode }),
+  pause: () => updateSettings({ wpPaused: !getSettings().wpPaused }),
   mode: () => {
     const s = getSettings();
     const dark = getTheme(s.theme).mode === "dark";
@@ -356,6 +367,7 @@ const actions = {
 installQuickMenu({
   open: actions.open,
   edit: actions.edit,
+  pause: actions.pause,
   contents: actions.toc,
   settings: () => togglePanel(settingsEl, true),
   pdf: actions.pdf,
@@ -366,6 +378,7 @@ $("btn-open").onclick = actions.open;
 $("btn-toc").onclick = actions.toc;
 $("btn-settings").onclick = actions.settings;
 $("btn-focus").onclick = actions.focus;
+$("btn-pause").onclick = actions.pause;
 $("btn-mode").onclick = actions.mode;
 $("btn-pdf").onclick = actions.pdf;
 
@@ -409,7 +422,7 @@ document.addEventListener("keydown", (e) => {
     return actions.pdf();
   }
   if (e.ctrlKey || e.altKey || e.metaKey) return;
-  const map: Record<string, () => void> = { o: actions.open, c: actions.toc, e: actions.edit, s: actions.settings, f: actions.focus, t: actions.mode, p: actions.pdf };
+  const map: Record<string, () => void> = { o: actions.open, c: actions.toc, e: actions.edit, w: actions.pause, s: actions.settings, f: actions.focus, t: actions.mode, p: actions.pdf };
   const fn = map[e.key.toLowerCase()];
   if (fn) {
     e.preventDefault();

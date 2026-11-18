@@ -25,6 +25,7 @@ export interface Settings {
 
   // Wallpaper (shared by all effects)
   wallpaper: WallpaperStyle;
+  wpPaused: boolean; // background frozen on its current frame
   wpDensity: number; // 1..10  how many particles / drops / stars
   wpSpeed: number; // 0..10
   wpDirection: number; // degrees, 0 = right, 90 = down
@@ -68,12 +69,13 @@ export const DEFAULTS: Settings = {
   focusMode: false,
 
   wallpaper: "starfield",
+  wpPaused: false,
   wpDensity: 5,
   wpSpeed: 3,
   wpDirection: 100,
   wpSize: 1,
   wpBrightness: 1,
-  parallax: 5,
+  parallax: 2,
   mouseGlow: true,
   clickEffect: "ripple",
   palettes: { fireflies: "warm" },

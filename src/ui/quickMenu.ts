@@ -6,6 +6,7 @@ import { chooseTheme, themeForFamily } from "./settingsPanel";
 export interface QuickActions {
   open: () => void;
   edit: () => void;
+  pause: () => void;
   contents: () => void;
   settings: () => void;
   pdf: () => void;
@@ -90,6 +91,7 @@ export function installQuickMenu(actions: QuickActions): void {
       walls.append(b);
     }
     menu.append(label("Wallpaper"), walls);
+    if (s.wallpaper !== "none") menu.append(item(s.wpPaused ? "Play background" : "Pause background", "W", actions.pause));
 
     // Steppers for text size and page width.
     const stepper = (name: string, value: string, minus: () => void, plus: () => void) => {

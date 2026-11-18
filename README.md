@@ -1,21 +1,47 @@
 <p align="center">
-  <img src="public/clawd.svg" width="112" alt="Claw'd holding a Markdown card" />
+  <img src="public/clawd.svg" width="120" alt="Claw'd holding a Markdown card" />
 </p>
 
 <h1 align="center">MD Reader</h1>
 
 <p align="center">
-  A calm desktop Markdown reader for Windows.<br />
-  Your document sits on a quiet reading column while a <b>live wallpaper</b> drifts behind it.
+  <b>A calm place to read Markdown.</b><br />
+  Your notes on a quiet reading column, with a live wallpaper drifting behind them.
+</p>
+
+<p align="center">
+  <a href="https://github.com/Shanu-vs/clawd-reader/releases/latest"><img src="https://img.shields.io/badge/Download_for_Windows-3_MB-2a5db0?style=for-the-badge&logo=windows&logoColor=white" alt="Download for Windows" /></a>
+</p>
+
+<p align="center">
+  <a href="https://github.com/Shanu-vs/clawd-reader/releases/latest"><img src="https://img.shields.io/github/v/release/Shanu-vs/clawd-reader?label=version&color=8fb4ff" alt="Latest version" /></a>
+  <img src="https://img.shields.io/badge/Windows-10%20%7C%2011-0078d4" alt="Windows 10 and 11" />
+  <img src="https://img.shields.io/badge/works-offline-6fc58a" alt="Works offline" />
+  <a href="https://github.com/Shanu-vs/clawd-reader/releases"><img src="https://img.shields.io/github/downloads/Shanu-vs/clawd-reader/total?color=f0a060" alt="Downloads" /></a>
 </p>
 
 <p align="center">
   <img src="docs/screenshots/starfield.png" width="860" alt="MD Reader showing the welcome page over a starfield" />
 </p>
 
-MD Reader is made for long reading sessions: study notes, documentation, books written in Markdown. It renders maths, figures and tables properly, gives you a PDF-style contents sidebar, and lets you edit and save when you need to. When your eyes need a break, the background is something to look at: a starfield, fireflies, slow currents, rain on a pond, or a pixel-art world where **Claw'd** the crab wanders between places.
+## Why MD Reader?
 
-It is a real desktop app built with [Tauri](https://tauri.app), so it uses Windows' built-in WebView2 instead of shipping a whole browser. It's small, opens instantly and stays light on battery.
+- **Made for long reading.** Study notes, documentation, books written in Markdown. Maths, figures, tables and a PDF-style contents sidebar all just work.
+- **Calm to look at.** A starfield, fireflies, slow currents, rain on a pond, or a pixel-art world where **Claw'd** the crab wanders between places. It reacts when you click, and pauses whenever you want.
+- **Tiny and quick.** A 3 MB installer that opens instantly. It uses the WebView2 already built into Windows instead of shipping a whole browser, so it stays light on memory and battery.
+- **Yours, offline.** No account, no sign-in, no internet needed. Your files stay on your computer.
+- **Easy on the eyes.** 13 themes, including warm low-blue-light, true-black OLED and High Contrast.
+
+## Install
+
+1. **[Download the latest `MD Reader_…_x64-setup.exe`](https://github.com/Shanu-vs/clawd-reader/releases/latest)** from the Releases page.
+2. Double-click it. If Windows says *"Windows protected your PC"*, click **More info → Run anyway**. (The app isn't code-signed yet; signing certificates cost money, so many small open-source apps show this.)
+3. Click through the setup. No admin rights needed.
+4. Find **MD Reader** in the Start menu or Windows search.
+
+**Open `.md` files with a double-click:** right-click any `.md` file → **Open with → Choose another app → MD Reader**, and tick **Always**.
+
+To uninstall: **Settings → Apps → Installed apps → MD Reader → Uninstall**.
 
 ## Screenshots
 
@@ -30,7 +56,7 @@ It is a real desktop app built with [Tauri](https://tauri.app), so it uses Windo
 ## Features
 
 ### Reading
-- Open with the **Open** button, drag a file onto the window, or paste Markdown with `Ctrl+V`.
+- Open with the **Open** button, a **double-click in Explorer**, drag a file onto the window, or paste Markdown with `Ctrl+V`.
 - **Maths** with KaTeX: `$inline$` and `$$ display $$` equations, with optional numbers like `$$[3.5]`.
 - **Numbered figures** from images that sit alone in a paragraph. The alt text becomes the caption, and `{width=70}` sets the size. Pictures next to the file load straight from disk.
 - **Table captions** with a `Table: …` line above a table, plus a **title block** from `% title:` / `% subtitle:` lines.
@@ -47,7 +73,7 @@ It is a real desktop app built with [Tauri](https://tauri.app), so it uses Windo
 
 ### Themes
 - **Paper**, in White, Sepia, Sage and Rose.
-- **Night**, in Indigo, Ocean, Forest, Purple, Ember (warm, low blue light), Graphite and OLED (true black, easy on battery and eyes at night).
+- **Night**, in Indigo, Ocean, Forest, Purple, Ember (warm, low blue light), Graphite and **OLED** (true black, easy on battery and eyes at night).
 - **Pixel Quest**: a chunky retro-game look with a pixel font.
 - **High Contrast**.
 - A one-click light/dark switch remembers your favourite of each.
@@ -90,9 +116,35 @@ The pixel world has six places: Green Meadow, Sunny Beach, Snowy Peaks, Desert C
 
 ## Try the sample
 
-[`docs/sample.md`](docs/sample.md) is a short set of study notes that shows off maths, a captioned table, code and a task list. Open it in the app.
+[`docs/sample.md`](docs/sample.md) is a short set of study notes that shows off maths, a captioned table, code and a task list. Download it and open it in the app.
 
-## Building it yourself (Windows)
+## FAQ
+
+**Is it free?** Yes.
+
+**Mac or Linux?** Windows 10 and 11 only for now.
+
+**Why does Windows warn me when installing?** The installer isn't code-signed, so SmartScreen doesn't recognise it yet. You can check the source here and build it yourself (see below).
+
+**Does it need the internet?** No. It only loads pictures from the web if your document links to them.
+
+**Windows 10 says something about WebView2.** Windows 11 already has it. On an older Windows 10, the installer downloads it for you.
+
+## Roadmap
+
+- [x] Open `.md` files by double-clicking them in Explorer
+- [x] Ready-made installer on the Releases page
+- [ ] Reload automatically when the file changes on disk
+- [ ] Recent files
+- [ ] Find in document (`Ctrl+F`)
+- [ ] Gentle ambient sounds to match each wallpaper
+
+Ideas and bug reports are welcome in [Issues](https://github.com/Shanu-vs/clawd-reader/issues).
+
+## For developers
+
+<details>
+<summary><b>Build it yourself (Windows)</b></summary>
 
 ### One-time setup
 
@@ -123,9 +175,12 @@ npm run dev        # browser-only preview at http://localhost:5173
 npm run app:build
 ```
 
-The installers appear in `src-tauri/target/release/bundle/` (an `.exe` setup and an `.msi`).
+The setup file appears in `src-tauri/target/release/bundle/nsis/`.
 
-## Project layout
+</details>
+
+<details>
+<summary><b>Project layout</b></summary>
 
 ```
 src/
@@ -152,14 +207,7 @@ src-tauri/                desktop wrapper (Rust): file access, window, installer
 docs/                     sample document and screenshots
 ```
 
-## Roadmap
-
-- [ ] Reload automatically when the file changes on disk
-- [ ] Recent files
-- [ ] Find in document (`Ctrl+F`)
-- [ ] Open `.md` files by double-clicking them in Explorer
-- [ ] Ready-made installers on the Releases page
-- [ ] Gentle ambient sounds to match each wallpaper
+</details>
 
 ## Credits
 

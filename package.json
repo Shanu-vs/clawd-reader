@@ -1,7 +1,7 @@
 {
   "name": "md-reader",
   "private": true,
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "A calm, lightweight desktop Markdown reader with a live starfield background.",
   "type": "module",
   "scripts": {

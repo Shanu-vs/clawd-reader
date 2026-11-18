@@ -17,6 +17,7 @@
   <a href="https://github.com/Shanu-vs/clawd-reader/releases/latest"><img src="https://img.shields.io/github/v/release/Shanu-vs/clawd-reader?label=version&color=8fb4ff" alt="Latest version" /></a>
   <img src="https://img.shields.io/badge/Windows-10%20%7C%2011-0078d4" alt="Windows 10 and 11" />
   <img src="https://img.shields.io/badge/works-offline-6fc58a" alt="Works offline" />
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-a986ff" alt="MIT licence" /></a>
   <a href="https://github.com/Shanu-vs/clawd-reader/releases"><img src="https://img.shields.io/github/downloads/Shanu-vs/clawd-reader/total?color=f0a060" alt="Downloads" /></a>
 </p>
 
@@ -120,7 +121,7 @@ The pixel world has six places: Green Meadow, Sunny Beach, Snowy Peaks, Desert C
 
 ## FAQ
 
-**Is it free?** Yes.
+**Is it free?** Yes, and open source under the [MIT licence](LICENSE).
 
 **Mac or Linux?** Windows 10 and 11 only for now.
 
@@ -208,6 +209,10 @@ docs/                     sample document and screenshots
 ```
 
 </details>
+
+## Licence
+
+[MIT](LICENSE): you're free to use, change and share the code, as long as the copyright notice stays with it.
 
 ## Credits
 

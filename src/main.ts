@@ -45,7 +45,8 @@ function applyAppearance(s: Settings): void {
   root.setProperty("--reading-font", `var(--font-${s.font})`);
   root.setProperty("--reading-size", `${s.fontSize}px`);
   root.setProperty("--reading-width", `${s.lineWidth}ch`);
-  root.setProperty("--doc-max", s.fitWidth ? `${s.pageWidth}%` : `calc(${s.lineWidth}ch + 96px)`);
+  const fit = s.limitLine ? `min(${s.pageWidth}%, calc(${s.maxLineCh}ch + 96px))` : `${s.pageWidth}%`;
+  root.setProperty("--doc-max", s.fitWidth ? fit : `calc(${s.lineWidth}ch + 96px)`);
   root.setProperty("--reading-leading", String(s.lineHeight));
   root.setProperty("--backdrop-opacity", String(s.backdropOpacity));
   root.setProperty("--backdrop-blur", `${s.backdropBlur}px`);

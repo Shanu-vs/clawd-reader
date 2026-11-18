@@ -7,7 +7,7 @@ import { PALETTES, getPalette, paletteId, paletteSwatch } from "../wallpaper/pal
 
 type NumKey = { [K in keyof Settings]: Settings[K] extends number ? K : never }[keyof Settings];
 type BoolKey = { [K in keyof Settings]: Settings[K] extends boolean ? K : never }[keyof Settings];
-type Only = { only?: WallpaperStyle[]; showIf?: (s: Settings) => boolean };
+type Only = { only?: WallpaperStyle[]; showIf?: (s: Settings) => boolean; advanced?: boolean };
 type Label = string | Partial<Record<WallpaperStyle, string>> & { default: string };
 
 type Control =
@@ -41,11 +41,14 @@ const SCHEMA: Control[] = [
   { kind: "range", key: "fontSize", label: "Text size", min: 13, max: 28, step: 1, fmt: (v) => `${v}px` },
   { kind: "toggle", key: "fitWidth", label: "Fit page to window" },
   { kind: "range", key: "pageWidth", label: "Page width", min: 45, max: 100, step: 1, fmt: (v) => `${v}% of window`, showIf: (s) => s.fitWidth },
+  { kind: "toggle", key: "limitLine", label: "Comfortable line length", showIf: (s) => s.fitWidth },
+  { kind: "range", key: "maxLineCh", label: "Longest line", min: 60, max: 140, step: 5, fmt: (v) => `${v} characters`, showIf: (s) => s.fitWidth && s.limitLine },
+  { kind: "hint", text: "Lines of about 65–75 characters are the easiest to read.", showIf: (s) => s.fitWidth && s.limitLine },
   { kind: "range", key: "lineWidth", label: "Line width", min: 45, max: 160, step: 1, fmt: (v) => `${v} ch`, showIf: (s) => !s.fitWidth },
   { kind: "range", key: "lineHeight", label: "Line spacing", min: 1.3, max: 2.2, step: 0.05, fmt: (v) => v.toFixed(2) },
   { kind: "range", key: "backdropOpacity", label: "Text backdrop", min: 0, max: 1, step: 0.01, fmt: pct },
-  { kind: "range", key: "backdropBlur", label: "Backdrop blur", min: 0, max: 20, step: 1, fmt: (v) => (v ? `${v}px` : "off") },
-  { kind: "hint", text: "Blur looks lovely but costs a little more GPU." },
+  { kind: "range", key: "backdropBlur", advanced: true, label: "Backdrop blur", min: 0, max: 20, step: 1, fmt: (v) => (v ? `${v}px` : "off") },
+  { kind: "hint", text: "Blur looks lovely but costs a little more GPU.", advanced: true },
 
   { kind: "section", label: "Live wallpaper" },
   {
@@ -61,13 +64,13 @@ const SCHEMA: Control[] = [
     label: { default: "Speed", starfield: "Drift speed", pixel: "Crab walking speed" },
   },
   {
-    kind: "range", key: "wpDirection", min: 0, max: 360, step: 5, fmt: dirLabel, only: ["starfield", "currents", "rain"],
+    kind: "range", key: "wpDirection", advanced: true, min: 0, max: 360, step: 5, fmt: dirLabel, only: ["starfield", "currents", "rain"],
     label: { default: "Direction", rain: "Wind" },
   },
-  { kind: "range", key: "wpSize", label: "Size", min: 0.5, max: 3, step: 0.1, fmt: (v) => `${v.toFixed(1)}×`, only: PARTICLES },
+  { kind: "range", key: "wpSize", advanced: true, label: "Size", min: 0.5, max: 3, step: 0.1, fmt: (v) => `${v.toFixed(1)}×`, only: PARTICLES },
   { kind: "range", key: "wpBrightness", label: "Brightness", min: 0.2, max: 1.5, step: 0.05, fmt: pct, only: ANIMATED },
-  { kind: "range", key: "twinkle", label: "Twinkle", min: 0, max: 1, step: 0.05, fmt: pct, only: ["starfield"] },
-  { kind: "range", key: "shootingStars", label: "Shooting stars", min: 0, max: 20, step: 1, fmt: (v) => (v ? `${v} / min` : "off"), only: ["starfield"] },
+  { kind: "range", key: "twinkle", advanced: true, label: "Twinkle", min: 0, max: 1, step: 0.05, fmt: pct, only: ["starfield"] },
+  { kind: "range", key: "shootingStars", advanced: true, label: "Shooting stars", min: 0, max: 20, step: 1, fmt: (v) => (v ? `${v} / min` : "off"), only: ["starfield"] },
   {
     kind: "select", key: "timeOfDay", label: "Time of day", only: ["pixel"],
     options: [["auto", "Match my clock"], ["cycle", "Full day every 8 min"], ["dawn", "Dawn"], ["day", "Day"], ["sunset", "Sunset"], ["night", "Night"]],
@@ -77,15 +80,15 @@ const SCHEMA: Control[] = [
     options: [["rotate", "Travel through all"], ...BIOMES.map((b): [string, string] => [b.id, b.name])],
   },
   {
-    kind: "select", key: "locationMinutes", label: "Change place every", only: ["pixel"], numeric: true,
+    kind: "select", key: "locationMinutes", advanced: true, label: "Change place every", only: ["pixel"], numeric: true,
     options: [["5", "5 minutes"], ["10", "10 minutes"], ["15", "15 minutes"], ["30", "30 minutes"], ["60", "1 hour"]],
   },
-  { kind: "range", key: "pixelScale", label: "Pixel size", min: 2, max: 8, step: 1, fmt: (v) => `${v}px`, only: ["pixel"] },
+  { kind: "range", key: "pixelScale", advanced: true, label: "Pixel size", min: 2, max: 8, step: 1, fmt: (v) => `${v}px`, only: ["pixel"] },
   { kind: "toggle", key: "showCrab", label: "Show Claw'd (Claude crab)", only: ["pixel"] },
-  { kind: "range", key: "dimBehindText", label: "Fade behind text", min: 0, max: 1, step: 0.05, fmt: pct, only: ANIMATED },
+  { kind: "range", key: "dimBehindText", advanced: true, label: "Fade behind text", min: 0, max: 1, step: 0.05, fmt: pct, only: ANIMATED },
 
   { kind: "section", label: "Interaction", only: ANIMATED },
-  { kind: "range", key: "parallax", label: "Mouse parallax", min: 0, max: 10, step: 0.5, only: ["starfield", "pixel"] },
+  { kind: "range", key: "parallax", advanced: true, label: "Mouse parallax", min: 0, max: 10, step: 0.5, only: ["starfield", "pixel"] },
   {
     kind: "toggle", key: "mouseGlow", only: PARTICLES,
     label: { default: "React to cursor", starfield: "Stars glow near cursor", fireflies: "Fireflies follow cursor", currents: "Cursor stirs a whirlpool", rain: "Cursor drips raindrops" },
@@ -136,14 +139,17 @@ const labelFor = (l: Label, style: WallpaperStyle) => (typeof l === "string" ? l
 
 export function buildSettingsPanel(root: HTMLElement): void {
   const updaters: (() => void)[] = [];
-  const visible = (el: HTMLElement, only?: WallpaperStyle[], showIf?: (s: Settings) => boolean) => {
-    if (only || showIf) {
+  const visible = (el: HTMLElement, only?: WallpaperStyle[], showIf?: (s: Settings) => boolean, advanced = false) => {
+    if (only || showIf || advanced) {
       updaters.push(() => {
         const s = getSettings();
-        el.hidden = (only ? !only.includes(s.wallpaper) : false) || (showIf ? !showIf(s) : false);
+        el.hidden =
+          (only ? !only.includes(s.wallpaper) : false) || (showIf ? !showIf(s) : false) || (advanced && !s.showAdvanced);
       });
     }
   };
+  // Sections with fine-tuning controls get a "More options" switch at the bottom.
+  const advancedBodies = new Set<HTMLElement>();
 
   root.innerHTML = `<div class="panel-head drag-handle" title="Drag to move. Drop on the right edge to dock.">
     <span class="grip" aria-hidden="true">⠿</span><span class="panel-title">Settings</span>
@@ -206,7 +212,8 @@ export function buildSettingsPanel(root: HTMLElement): void {
       el.className = "set-hint";
       const text = c.text;
       updaters.push(() => (el.textContent = labelFor(text, getSettings().wallpaper)));
-      visible(el, c.only, c.showIf);
+      visible(el, c.only, c.showIf, c.advanced);
+      if (c.advanced) advancedBodies.add(body);
       body.append(el);
       continue;
     }
@@ -243,7 +250,9 @@ export function buildSettingsPanel(root: HTMLElement): void {
     row.className = "set-row";
     const name = document.createElement("span");
     row.append(name);
-    visible(row, c.only, "showIf" in c ? c.showIf : undefined);
+    const adv = "advanced" in c && !!c.advanced;
+    visible(row, c.only, "showIf" in c ? c.showIf : undefined, adv);
+    if (adv) advancedBodies.add(body);
     const label = c.label;
     updaters.push(() => (name.textContent = labelFor(label, getSettings().wallpaper)));
 
@@ -276,6 +285,13 @@ export function buildSettingsPanel(root: HTMLElement): void {
       updaters.push(() => (input.value = getSettings().wpColor));
     }
     body.append(row);
+  }
+
+  for (const b of advancedBodies) {
+    const more = Object.assign(document.createElement("button"), { className: "set-more" });
+    more.onclick = () => updateSettings({ showAdvanced: !getSettings().showAdvanced });
+    updaters.push(() => (more.textContent = getSettings().showAdvanced ? "Fewer options" : "More options"));
+    b.append(more);
   }
 
   const actions = document.createElement("div");

@@ -16,6 +16,9 @@ export interface Settings {
   lineWidth: number; // characters (ch), used when fitWidth is off
   fitWidth: boolean; // reading column grows with the window
   pageWidth: number; // % of the window used when fitWidth is on
+  limitLine: boolean; // when fitting the window, stop lines from growing past maxLineCh
+  maxLineCh: number; // characters
+  showAdvanced: boolean; // settings panel shows the fine-tuning controls
   lineHeight: number;
 
   // Reading column
@@ -62,6 +65,9 @@ export const DEFAULTS: Settings = {
   lineWidth: 70,
   fitWidth: true,
   pageWidth: 82,
+  limitLine: false,
+  maxLineCh: 85,
+  showAdvanced: false,
   lineHeight: 1.75,
 
   backdropOpacity: 0.72,

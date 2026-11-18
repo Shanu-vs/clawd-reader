@@ -14,6 +14,7 @@ import { buildSettingsPanel } from "./ui/settingsPanel";
 import { isDesktop, loadLocalImages, onFileDrop, pickFile, readPath, setWindowTitle, splitPath, startupFile, type OpenedFile } from "./desktop";
 import { Editor } from "./ui/editor";
 import { applyIcons } from "./ui/icons";
+import { installAbout } from "./ui/about";
 import { ContentsPanel, isNarrow } from "./ui/contents";
 import { makeFloating } from "./ui/floating";
 import { installQuickMenu } from "./ui/quickMenu";
@@ -369,12 +370,15 @@ installQuickMenu({
   open: actions.open,
   edit: actions.edit,
   pause: actions.pause,
+  about: () => showAbout(),
   contents: actions.toc,
   settings: () => togglePanel(settingsEl, true),
   pdf: actions.pdf,
   focus: actions.focus,
 });
 
+const showAbout = installAbout();
+$("btn-about").onclick = showAbout;
 $("btn-open").onclick = actions.open;
 $("btn-toc").onclick = actions.toc;
 $("btn-settings").onclick = actions.settings;

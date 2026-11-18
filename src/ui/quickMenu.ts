@@ -7,6 +7,7 @@ export interface QuickActions {
   open: () => void;
   edit: () => void;
   pause: () => void;
+  about: () => void;
   contents: () => void;
   settings: () => void;
   pdf: () => void;
@@ -124,6 +125,7 @@ export function installQuickMenu(actions: QuickActions): void {
     );
     menu.append(document.createElement("hr"));
     menu.append(item("All settings…", "Ctrl+,", actions.settings));
+    menu.append(item("About MD Reader", "", actions.about));
   };
 
   const label = (text: string) => Object.assign(document.createElement("div"), { className: "qm-label", textContent: text });

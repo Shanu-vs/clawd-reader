@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MD Reader</title>
+    <link rel="icon" type="image/svg+xml" href="/clawd.svg" />
   </head>
   <body>
     <!-- Live wallpaper fills the whole window behind everything -->
@@ -11,6 +12,7 @@
 
     <header id="toolbar" class="no-print" data-tauri-drag-region>
       <div class="toolbar-group" data-tauri-drag-region>
+        <button id="btn-about" class="tb icon app-mark" title="About MD Reader" aria-label="About MD Reader"><svg class="app-mark-svg" viewBox="0 0 12 8" width="22" height="15" shape-rendering="crispEdges" aria-hidden="true"><path fill="#d97757" d="M2 0h8v2h2v2h-2v4h-1V6H8v2H7V6H5v2H4V6H3v2H2V4H0V2h2z"/><rect x="3" y="1" width="1" height="1" fill="#000"/><rect x="8" y="1" width="1" height="1" fill="#000"/></svg></button>
         <button id="btn-open" class="tb" data-icon="open" title="Open a Markdown file (O)"><span>Open</span></button>
         <button id="btn-toc" class="tb" data-icon="contents" title="Table of contents (C)"><span>Contents</span></button>
         <div id="edit-group" class="split-btn">
@@ -46,6 +48,8 @@
     </main>
 
     <aside id="settings" class="panel no-print" aria-label="Settings" hidden></aside>
+
+    <dialog id="about" class="no-print" aria-label="About MD Reader"></dialog>
 
     <div id="toast" class="no-print" role="status" aria-live="polite"></div>
 

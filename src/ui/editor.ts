@@ -44,6 +44,7 @@ export class Editor {
       }
     });
     window.addEventListener("resize", () => this.editing && this.autosize());
+    this.refresh(); // draw the "Edit" button
   }
 
   get dirty(): boolean {

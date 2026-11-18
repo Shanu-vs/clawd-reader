@@ -1,7 +1,8 @@
 // Starfield: layered drifting stars with parallax, twinkle, cursor glow, click ripples / warp,
-// and the occasional shooting star.
+// and the occasional shooting star. Press and hold to pull stars into a gravity well
+// (let go and they slingshot away); double-click for a supernova.
 import type { Settings } from "../settings";
-import type { FrameContext, WallpaperEffect } from "./types";
+import { pick, type FrameContext, type WallpaperEffect } from "./types";
 
 interface Star {
   x: number;
@@ -11,6 +12,7 @@ interface Star {
   twSpeed: number;
   vx: number; // temporary push velocity (from clicks)
   vy: number;
+  tone: number; // 0..1 index into the palette
 }
 
 interface Shooter {
@@ -72,6 +74,7 @@ export class Starfield implements WallpaperEffect {
       twSpeed: rand(0.6, 2.2),
       vx: 0,
       vy: 0,
+      tone: Math.random(),
     };
   }
 
@@ -91,6 +94,25 @@ export class Starfield implements WallpaperEffect {
       s.vy += (dy / d) * strength * s.z;
     }
     if (!warp) this.rings.push({ x, y, age: 0 });
+  }
+
+  /** Supernova: a warp-strength push from the point, a bright ring and a shower of shooting stars. */
+  dblclick(x: number, y: number, ctx: FrameContext): void {
+    for (const s of this.stars) {
+      const { px, py } = this.screenPos(s);
+      const dx = px - x;
+      const dy = py - y;
+      const d = Math.hypot(dx, dy) || 1;
+      const strength = 380 * Math.max(0.25, 1 - d / Math.hypot(ctx.width, ctx.height));
+      s.vx += (dx / d) * strength * s.z;
+      s.vy += (dy / d) * strength * s.z;
+    }
+    this.rings.push({ x, y, age: 0 }, { x, y, age: -0.25 });
+    for (let i = 0; i < 6; i++) {
+      const ang = (i / 6) * Math.PI * 2 + rand(-0.3, 0.3);
+      const spd = rand(420, 640);
+      this.shooters.push({ x, y, vx: Math.cos(ang) * spd, vy: Math.sin(ang) * spd, life: 0, maxLife: rand(0.7, 1.1), len: rand(70, 130) });
+    }
   }
 
   private screenPos(s: Star): { px: number; py: number } {
@@ -121,7 +143,20 @@ export class Starfield implements WallpaperEffect {
     this.offY += (ty * 3 - this.offY) * k;
 
     const damp = Math.exp(-dt * 2.2);
+    const { mouse } = ctx;
     for (const s of this.stars) {
+      if (mouse.held) {
+        // Gravity well: nearby stars fall toward the cursor and curl around it.
+        const { px, py } = this.screenPos(s);
+        const gx = mouse.x - px;
+        const gy = mouse.y - py;
+        const d = Math.hypot(gx, gy) || 1;
+        if (d < 320 && d > 6) {
+          const f = (1 - d / 320) * 900 * dt * s.z;
+          s.vx += (gx / d) * f + (-gy / d) * f * 0.5;
+          s.vy += (gy / d) * f + (gx / d) * f * 0.5;
+        }
+      }
       s.x += (dx * s.z + s.vx) * dt;
       s.y += (dy * s.z + s.vy) * dt;
       s.vx *= damp;
@@ -173,9 +208,12 @@ export class Starfield implements WallpaperEffect {
     const inDim = (x: number, y: number) =>
       dimRect !== null && x > dimRect.left && x < dimRect.right && y > dimRect.top && y < dimRect.bottom;
 
+    const multi = colors.tones.length > 1;
     g.fillStyle = colors.primary;
     for (const s of this.stars) {
       const { px, py } = this.screenPos(s);
+      const color = multi ? pick(colors.tones, s.tone) : colors.primary;
+      if (multi) g.fillStyle = color;
 
       let a = (0.25 + 0.75 * s.z) * bright;
       if (twinkle > 0) a *= 1 - twinkle * 0.55 + twinkle * 0.55 * Math.sin(time * s.twSpeed + s.phase);
@@ -196,7 +234,7 @@ export class Starfield implements WallpaperEffect {
       // Fast-moving stars (after a click) are drawn as short streaks.
       const v = Math.hypot(s.vx, s.vy);
       if (v > 50) {
-        g.strokeStyle = colors.primary;
+        g.strokeStyle = color;
         g.lineWidth = Math.max(0.8, r * 0.9);
         g.beginPath();
         g.moveTo(px, py);
@@ -214,6 +252,7 @@ export class Starfield implements WallpaperEffect {
     // Shooting stars: a fading tail behind a bright head.
     for (const sh of this.shooters) {
       const t = sh.life / sh.maxLife;
+      g.lineCap = "round";
       const fade = Math.sin(Math.PI * t) * (inDim(sh.x, sh.y) ? dimInside : 1) * bright;
       const sp = Math.hypot(sh.vx, sh.vy);
       const tx = sh.x - (sh.vx / sp) * sh.len;
@@ -232,6 +271,7 @@ export class Starfield implements WallpaperEffect {
 
     // Click ripples.
     for (const ring of this.rings) {
+      if (ring.age < 0) continue;
       const t = ring.age / 1.6;
       g.globalAlpha = (1 - t) * 0.35 * bright;
       g.strokeStyle = colors.glow;

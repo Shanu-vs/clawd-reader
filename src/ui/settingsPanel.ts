@@ -1,22 +1,26 @@
 // Settings panel built from a small declarative schema, so adding a control is one line.
 // Wallpaper controls declare which effects they apply to and are hidden for the others.
 import { DEFAULTS, getSettings, onSettingsChange, resetSettings, updateSettings, type Settings, type WallpaperStyle } from "../settings";
-import { THEMES, getTheme } from "../themes";
+import { FAMILIES, familyMembers, getTheme, themeLabel, type ThemeFamily } from "../themes";
 import { BIOMES } from "../wallpaper/pixel/biomes";
+import { PALETTES, getPalette, paletteId, paletteSwatch } from "../wallpaper/palettes";
 
 type NumKey = { [K in keyof Settings]: Settings[K] extends number ? K : never }[keyof Settings];
 type BoolKey = { [K in keyof Settings]: Settings[K] extends boolean ? K : never }[keyof Settings];
-type Only = { only?: WallpaperStyle[] };
+type Only = { only?: WallpaperStyle[]; showIf?: (s: Settings) => boolean };
 type Label = string | Partial<Record<WallpaperStyle, string>> & { default: string };
 
 type Control =
   | ({ kind: "section"; label: string } & Only)
   | { kind: "themes" }
+  | ({ kind: "palette" } & Only)
   | ({ kind: "range"; key: NumKey; label: Label; min: number; max: number; step: number; fmt?: (v: number) => string } & Only)
   | ({ kind: "toggle"; key: BoolKey; label: Label } & Only)
   | ({ kind: "select"; key: keyof Settings; label: Label; options: [string, string][]; numeric?: boolean } & Only)
   | ({ kind: "color"; key: "wpColor"; label: string } & Only)
-  | ({ kind: "hint"; text: string } & Only);
+  | ({ kind: "hint"; text: Label } & Only);
+
+const PIN_ICON = `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="3.5" y="4" width="17" height="16" rx="2.5"/><path d="M14.5 4v16"/></svg>`;
 
 const pct = (v: number) => `${Math.round(v * 100)}%`;
 const directions: Record<number, string> = { 0: "right", 45: "down-right", 90: "down", 135: "down-left", 180: "left", 225: "up-left", 270: "up", 315: "up-right", 360: "right" };
@@ -35,7 +39,9 @@ const SCHEMA: Control[] = [
   { kind: "section", label: "Reading" },
   { kind: "select", key: "font", label: "Font", options: [["serif", "Serif"], ["sans", "Sans"], ["mono", "Mono"], ["pixel", "Pixel"]] },
   { kind: "range", key: "fontSize", label: "Text size", min: 13, max: 28, step: 1, fmt: (v) => `${v}px` },
-  { kind: "range", key: "lineWidth", label: "Line width", min: 45, max: 110, step: 1, fmt: (v) => `${v} ch` },
+  { kind: "toggle", key: "fitWidth", label: "Fit page to window" },
+  { kind: "range", key: "pageWidth", label: "Page width", min: 45, max: 100, step: 1, fmt: (v) => `${v}% of window`, showIf: (s) => s.fitWidth },
+  { kind: "range", key: "lineWidth", label: "Line width", min: 45, max: 160, step: 1, fmt: (v) => `${v} ch`, showIf: (s) => !s.fitWidth },
   { kind: "range", key: "lineHeight", label: "Line spacing", min: 1.3, max: 2.2, step: 0.05, fmt: (v) => v.toFixed(2) },
   { kind: "range", key: "backdropOpacity", label: "Text backdrop", min: 0, max: 1, step: 0.01, fmt: pct },
   { kind: "range", key: "backdropBlur", label: "Backdrop blur", min: 0, max: 20, step: 1, fmt: (v) => (v ? `${v}px` : "off") },
@@ -88,11 +94,21 @@ const SCHEMA: Control[] = [
     kind: "select", key: "clickEffect", label: "Click on background", only: ANIMATED,
     options: [["ripple", "Ripple / burst"], ["warp", "Warp (starfield)"], ["none", "Nothing"]],
   },
-  { kind: "hint", text: "In the pixel world, clicking makes the crab hop and sparkles fly.", only: ["pixel"] },
+  {
+    kind: "hint", only: ANIMATED,
+    text: {
+      default: "",
+      starfield: "Click: ripple · Double-click: supernova · Press and hold: gravity well (let go to slingshot).",
+      fireflies: "Click: scatter · Double-click: they all light up · Press and hold: they gather and circle you.",
+      currents: "Click: swirl · Double-click: a wide, slow whirlpool · Press and drag: stir the water.",
+      rain: "Click: splash · Double-click: thunder shower · Press and hold: rest a finger in the water.",
+      pixel: "Click: Claw'd hops · Double-click: fireworks · Press and hold: magic dust follows you.",
+    },
+  },
 
   { kind: "section", label: "Colour", only: PARTICLES },
-  { kind: "toggle", key: "useThemeColor", label: "Match theme", only: PARTICLES },
-  { kind: "color", key: "wpColor", label: "Custom colour", only: PARTICLES },
+  { kind: "palette", only: PARTICLES },
+  { kind: "color", key: "wpColor", label: "My colour", only: PARTICLES, showIf: (s) => paletteId(s) === "custom" },
 
   { kind: "section", label: "Performance" },
   { kind: "select", key: "fpsCap", label: "Frame rate", options: [["15", "15 fps (lightest)"], ["20", "20 fps"], ["30", "30 fps"], ["60", "60 fps (smoothest)"]], numeric: true },
@@ -100,47 +116,126 @@ const SCHEMA: Control[] = [
 ];
 
 const WALLPAPER_KEYS = Object.keys(DEFAULTS).filter((k) =>
-  /^(wp|twinkle|parallax|mouseGlow|clickEffect|shootingStars|useThemeColor|dimBehindText|fpsCap|pixelScale|timeOfDay|showCrab|location)/.test(k),
+  /^(wp|twinkle|parallax|mouseGlow|clickEffect|shootingStars|palettes|dimBehindText|fpsCap|pixelScale|timeOfDay|showCrab|location)/.test(k),
 ) as (keyof Settings)[];
+
+const WALLPAPER_NAMES: Record<WallpaperStyle, string> = {
+  starfield: "Starfield", fireflies: "Fireflies", currents: "Flowing currents", rain: "Rain ripples", pixel: "Pixel world", none: "Off",
+};
+
+/** Short "current value" shown on a collapsed section's row. */
+const SUMMARIES: Record<string, (s: Settings) => string> = {
+  Theme: (s) => themeLabel(getTheme(s.theme)),
+  Reading: (s) => `${s.font[0].toUpperCase()}${s.font.slice(1)} · ${s.fontSize}px · ${s.fitWidth ? `${s.pageWidth}%` : `${s.lineWidth} ch`}`,
+  "Live wallpaper": (s) => WALLPAPER_NAMES[s.wallpaper],
+  Colour: (s) => getPalette(paletteId(s)).name,
+  Performance: (s) => `${s.fpsCap} fps`,
+};
 
 const labelFor = (l: Label, style: WallpaperStyle) => (typeof l === "string" ? l : (l[style] ?? l.default));
 
 export function buildSettingsPanel(root: HTMLElement): void {
   const updaters: (() => void)[] = [];
-  const visible = (el: HTMLElement, only?: WallpaperStyle[]) => {
-    if (only) updaters.push(() => (el.hidden = !only.includes(getSettings().wallpaper)));
+  const visible = (el: HTMLElement, only?: WallpaperStyle[], showIf?: (s: Settings) => boolean) => {
+    if (only || showIf) {
+      updaters.push(() => {
+        const s = getSettings();
+        el.hidden = (only ? !only.includes(s.wallpaper) : false) || (showIf ? !showIf(s) : false);
+      });
+    }
   };
 
-  root.innerHTML = `<div class="panel-head"><span>Settings</span><button class="panel-close" data-close="settings" aria-label="Close settings">×</button></div>`;
+  root.innerHTML = `<div class="panel-head drag-handle" title="Drag to move. Drop on the right edge to dock.">
+    <span class="grip" aria-hidden="true">⠿</span><span class="panel-title">Settings</span>
+    <button class="panel-pin" data-pin aria-label="Dock or undock">${PIN_ICON}</button>
+    <button class="panel-close" data-close="settings" aria-label="Close settings">×</button>
+  </div>`;
+
+  // Each section is a collapsible group, like a chapter in the contents panel.
+  const OPEN_KEY = "mdreader.settingsOpen";
+  let open = new Set<string>(["Theme"]);
+  try {
+    const saved = JSON.parse(localStorage.getItem(OPEN_KEY) ?? "null");
+    if (Array.isArray(saved)) open = new Set(saved);
+  } catch {
+    /* defaults */
+  }
+  const saveOpen = () => {
+    try {
+      localStorage.setItem(OPEN_KEY, JSON.stringify([...open]));
+    } catch {
+      /* ignore */
+    }
+  };
+
+  const list = document.createElement("div");
+  list.className = "set-groups";
+  root.append(list);
+  let body: HTMLElement = list;
 
   for (const c of SCHEMA) {
-    if (c.kind === "section" || c.kind === "hint") {
+    if (c.kind === "section") {
+      const group = document.createElement("section");
+      group.className = "set-group" + (open.has(c.label) ? " open" : "");
+      const head = document.createElement("button");
+      head.className = "set-group-head";
+      head.setAttribute("aria-expanded", String(open.has(c.label)));
+      head.innerHTML = `<span class="twisty" aria-hidden="true"></span><span class="set-group-name">${c.label}</span><span class="set-group-sum"></span>`;
+      const sectionLabel = c.label;
+      head.onclick = () => {
+        const isOpen = group.classList.toggle("open");
+        head.setAttribute("aria-expanded", String(isOpen));
+        if (isOpen) open.add(sectionLabel);
+        else open.delete(sectionLabel);
+        saveOpen();
+      };
+      const summary = SUMMARIES[c.label];
+      if (summary) {
+        const sum = head.querySelector<HTMLElement>(".set-group-sum")!;
+        updaters.push(() => (sum.textContent = summary(getSettings())));
+      }
+      body = document.createElement("div");
+      body.className = "set-group-body";
+      group.append(head, body);
+      visible(group, c.only, c.showIf);
+      list.append(group);
+      continue;
+    }
+    if (c.kind === "hint") {
       const el = document.createElement("div");
-      el.className = c.kind === "section" ? "set-section" : "set-hint";
-      el.textContent = c.kind === "section" ? c.label : c.text;
-      visible(el, c.only);
-      root.append(el);
+      el.className = "set-hint";
+      const text = c.text;
+      updaters.push(() => (el.textContent = labelFor(text, getSettings().wallpaper)));
+      visible(el, c.only, c.showIf);
+      body.append(el);
       continue;
     }
     if (c.kind === "themes") {
+      body.append(buildThemePicker(updaters));
+      continue;
+    }
+    if (c.kind === "palette") {
       const grid = document.createElement("div");
-      grid.className = "theme-grid";
-      for (const t of THEMES) {
+      grid.className = "palette-grid";
+      for (const p of PALETTES) {
         const b = document.createElement("button");
-        b.className = "theme-chip";
-        b.innerHTML = `<span class="sw" style="background:${t.vars.bg};box-shadow:inset 0 0 0 4px ${t.vars.bg}, inset 0 0 0 9px ${t.vars.accent}"></span>${t.name}`;
+        b.className = "palette-chip";
+        b.title = p.name;
+        const sw = Object.assign(document.createElement("span"), { className: "sw" });
+        b.append(sw, p.name);
         b.onclick = () => {
-          const s = getSettings();
-          const patch: Partial<Settings> = { theme: t.id };
-          // Themes with their own wallpaper switch to it; leaving such a theme goes back to the starfield.
-          if (t.wallpaper) patch.wallpaper = t.wallpaper;
-          else if (getTheme(s.theme).wallpaper === s.wallpaper) patch.wallpaper = "starfield";
-          updateSettings(patch);
+          const st = getSettings();
+          updateSettings({ palettes: { ...st.palettes, [st.wallpaper]: p.id } });
         };
         grid.append(b);
-        updaters.push(() => b.classList.toggle("active", getSettings().theme === t.id));
+        updaters.push(() => {
+          const st = getSettings();
+          sw.style.background = paletteSwatch(p.id, st, getTheme(st.theme));
+          b.classList.toggle("active", paletteId(st) === p.id);
+        });
       }
-      root.append(grid);
+      visible(grid, c.only, c.showIf);
+      body.append(grid);
       continue;
     }
 
@@ -148,7 +243,7 @@ export function buildSettingsPanel(root: HTMLElement): void {
     row.className = "set-row";
     const name = document.createElement("span");
     row.append(name);
-    visible(row, c.only);
+    visible(row, c.only, "showIf" in c ? c.showIf : undefined);
     const label = c.label;
     updaters.push(() => (name.textContent = labelFor(label, getSettings().wallpaper)));
 
@@ -176,14 +271,11 @@ export function buildSettingsPanel(root: HTMLElement): void {
       updaters.push(() => (sel.value = String(getSettings()[c.key])));
     } else if (c.kind === "color") {
       const input = Object.assign(document.createElement("input"), { type: "color" });
-      input.oninput = () => updateSettings({ wpColor: input.value, useThemeColor: false });
+      input.oninput = () => updateSettings({ wpColor: input.value });
       row.append(input);
-      updaters.push(() => {
-        input.value = getSettings().wpColor;
-        row.style.opacity = getSettings().useThemeColor ? "0.55" : "1";
-      });
+      updaters.push(() => (input.value = getSettings().wpColor));
     }
-    root.append(row);
+    body.append(row);
   }
 
   const actions = document.createElement("div");
@@ -198,4 +290,74 @@ export function buildSettingsPanel(root: HTMLElement): void {
   const refresh = () => updaters.forEach((u) => u());
   refresh();
   onSettingsChange(refresh);
+}
+
+/** The family's remembered colour variation, or its default. */
+export function themeForFamily(f: ThemeFamily): string {
+  const s = getSettings();
+  const remembered = s.themePicks[f];
+  if (remembered && familyMembers(f).some((t) => t.id === remembered)) return remembered;
+  return FAMILIES.find((x) => x.id === f)!.fallback;
+}
+
+/** Apply a theme; themes with their own wallpaper switch to it, and leaving one goes back to stars. */
+export function chooseTheme(id: string): void {
+  const s = getSettings();
+  const t = getTheme(id);
+  const patch: Partial<Settings> = { theme: id };
+  if (t.wallpaper) patch.wallpaper = t.wallpaper;
+  else if (getTheme(s.theme).wallpaper === s.wallpaper) patch.wallpaper = "starfield";
+  updateSettings(patch);
+}
+
+const swatchStyle = (bg: string, accent: string) => `background:${bg};box-shadow:inset 0 0 0 4px ${bg}, inset 0 0 0 9px ${accent}`;
+
+/** Theme families as cards; the active family's colour variations sit in a row underneath. */
+function buildThemePicker(updaters: (() => void)[]): HTMLElement {
+  const wrap = document.createElement("div");
+  const grid = document.createElement("div");
+  grid.className = "theme-grid";
+  for (const fam of FAMILIES) {
+    const b = document.createElement("button");
+    b.className = "theme-chip";
+    const sw = Object.assign(document.createElement("span"), { className: "sw" });
+    b.append(sw, Object.assign(document.createElement("span"), { className: "tc-text", textContent: fam.name }));
+    b.onclick = () => chooseTheme(themeForFamily(fam.id));
+    grid.append(b);
+    updaters.push(() => {
+      const cur = getTheme(getSettings().theme);
+      const active = cur.family === fam.id;
+      const t = active ? cur : getTheme(themeForFamily(fam.id));
+      sw.setAttribute("style", swatchStyle(t.vars.bg, t.vars.accent));
+      b.classList.toggle("active", active);
+    });
+  }
+
+  const variants = document.createElement("div");
+  variants.className = "theme-variants";
+  let shownFamily = "";
+  updaters.push(() => {
+    const cur = getTheme(getSettings().theme);
+    const members = familyMembers(cur.family);
+    variants.hidden = members.length < 2;
+    if (shownFamily !== cur.family) {
+      shownFamily = cur.family;
+      variants.innerHTML = `<div class="tv-label">${FAMILIES.find((f) => f.id === cur.family)!.name} colours</div>`;
+      const row = document.createElement("div");
+      row.className = "tv-row";
+      for (const t of members) {
+        const b = document.createElement("button");
+        b.className = "tv-chip";
+        b.dataset.id = t.id;
+        b.title = t.name;
+        b.innerHTML = `<span class="sw" style="${swatchStyle(t.vars.bg, t.vars.accent)}"></span><span>${t.variant}</span>`;
+        b.onclick = () => chooseTheme(t.id);
+        row.append(b);
+      }
+      variants.append(row);
+    }
+    variants.querySelectorAll<HTMLElement>(".tv-chip").forEach((b) => b.classList.toggle("active", b.dataset.id === cur.id));
+  });
+  wrap.append(grid, variants);
+  return wrap;
 }

@@ -10,9 +10,12 @@ export interface Settings {
   theme: string;
   lastLightTheme: string;
   lastDarkTheme: string;
+  themePicks: Record<string, string>; // last colour variation chosen in each theme family
   font: FontChoice;
   fontSize: number; // px
-  lineWidth: number; // characters (ch)
+  lineWidth: number; // characters (ch), used when fitWidth is off
+  fitWidth: boolean; // reading column grows with the window
+  pageWidth: number; // % of the window used when fitWidth is on
   lineHeight: number;
 
   // Reading column
@@ -30,8 +33,8 @@ export interface Settings {
   parallax: number; // 0..10
   mouseGlow: boolean;
   clickEffect: ClickEffect;
-  useThemeColor: boolean;
-  wpColor: string; // hex, used when useThemeColor = false
+  palettes: Partial<Record<WallpaperStyle, string>>; // colour palette per wallpaper (see wallpaper/palettes.ts)
+  wpColor: string; // hex, used by the "custom" palette
   dimBehindText: number; // 0..1 (how much the wallpaper fades behind the reading column)
   fpsCap: number; // 15 | 20 | 30 | 60
   respectReducedMotion: boolean;
@@ -52,9 +55,12 @@ export const DEFAULTS: Settings = {
   theme: "night",
   lastLightTheme: "paper",
   lastDarkTheme: "night",
+  themePicks: {},
   font: "serif",
   fontSize: 18,
   lineWidth: 70,
+  fitWidth: true,
+  pageWidth: 82,
   lineHeight: 1.75,
 
   backdropOpacity: 0.72,
@@ -70,7 +76,7 @@ export const DEFAULTS: Settings = {
   parallax: 5,
   mouseGlow: true,
   clickEffect: "ripple",
-  useThemeColor: true,
+  palettes: { fireflies: "warm" },
   wpColor: "#dfe4ff",
   dimBehindText: 0.6,
   fpsCap: 30,
@@ -96,7 +102,7 @@ const RENAMED: Record<string, keyof Settings> = {
   starDirection: "wpDirection",
   starSize: "wpSize",
   starBrightness: "wpBrightness",
-  useThemeStarColor: "useThemeColor",
+  useThemeStarColor: "useThemeColor" as keyof Settings,
   starColor: "wpColor",
   showTraveler: "showCrab",
 };
@@ -109,6 +115,13 @@ function load(): Settings {
       for (const [oldKey, newKey] of Object.entries(RENAMED)) {
         if (oldKey in saved && !(newKey in saved)) saved[newKey] = saved[oldKey];
         delete saved[oldKey];
+      }
+      // "Match theme colour: off" became the "custom" palette.
+      if ("useThemeColor" in saved) {
+        if (saved.useThemeColor === false && !saved.palettes) {
+          saved.palettes = { starfield: "custom", fireflies: "custom", currents: "custom", rain: "custom" };
+        }
+        delete saved.useThemeColor;
       }
       return { ...DEFAULTS, ...saved } as Settings;
     }

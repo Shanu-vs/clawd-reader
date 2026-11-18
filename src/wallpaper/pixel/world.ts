@@ -11,7 +11,10 @@ import { Scene, nightAt, type View } from "./scene";
 const FIXED_HOURS = { dawn: 6.6, day: 12, sunset: 18.4, night: 23 } as const;
 const FADE_SECONDS = 6;
 
-interface Spark { x: number; y: number; vx: number; vy: number; age: number; color: RGB }
+interface Spark { x: number; y: number; vx: number; vy: number; age: number; life: number; gravity: number; color: RGB }
+
+const SPARK_COLORS = ["#ffe36a", "#ffffff", "#ff9f6a", "#d97757"].map(hex);
+const FIREWORK_COLORS = [["#ff6b6b", "#ffd0d0"], ["#7fd3ff", "#e0f6ff"], ["#ffe36a", "#fff6c4"], ["#b99cff", "#efe6ff"], ["#7dffb0", "#dcffe9"]].map((p) => p.map(hex));
 
 export class PixelWorld implements WallpaperEffect {
   readonly ownsBackground = true;
@@ -27,6 +30,9 @@ export class PixelWorld implements WallpaperEffect {
 
   private crab = new Crab();
   private sparks: Spark[] = [];
+  private pending: { at: number; x: number; y: number }[] = []; // fireworks waiting to burst
+  private clock = 0;
+  private dustIn = 0;
   private P = 4;
   private bw = 0;
   private bh = 0;
@@ -103,11 +109,32 @@ export class PixelWorld implements WallpaperEffect {
   click(x: number, y: number, ctx: FrameContext): void {
     if (ctx.settings.clickEffect === "none") return;
     if (ctx.settings.showCrab) this.crab.hop();
-    const colors = ["#ffe36a", "#ffffff", "#ff9f6a", "#d97757"].map(hex);
     for (let i = 0; i < 16; i++) {
       const a = (i / 16) * Math.PI * 2;
       const s = 14 + Math.random() * 18;
-      this.sparks.push({ x: x / this.P, y: y / this.P, vx: Math.cos(a) * s, vy: Math.sin(a) * s - 6, age: 0, color: colors[i % colors.length] });
+      this.spark(x / this.P, y / this.P, Math.cos(a) * s, Math.sin(a) * s - 6, SPARK_COLORS[i % SPARK_COLORS.length]);
+    }
+  }
+
+  /** Double-click: a little fireworks show over the spot, and Claw'd waves at it. */
+  dblclick(x: number, y: number, ctx: FrameContext): void {
+    if (ctx.settings.showCrab) this.crab.wave();
+    for (let i = 0; i < 3; i++) {
+      this.pending.push({ at: this.clock + i * 0.45, x: x + (Math.random() - 0.5) * 220, y: y - 40 - Math.random() * 120 });
+    }
+  }
+
+  private spark(x: number, y: number, vx: number, vy: number, color: RGB, life = 1.2, gravity = 30): void {
+    if (this.sparks.length < 600) this.sparks.push({ x, y, vx, vy, age: 0, life, gravity, color });
+  }
+
+  private burst(x: number, y: number): void {
+    const [main, light] = FIREWORK_COLORS[Math.floor(Math.random() * FIREWORK_COLORS.length)];
+    const n = 36;
+    for (let i = 0; i < n; i++) {
+      const a = (i / n) * Math.PI * 2;
+      const s = 20 + Math.random() * 10;
+      this.spark(x / this.P, y / this.P, Math.cos(a) * s, Math.sin(a) * s, i % 3 ? main : light, 1.8, 9);
     }
   }
 
@@ -133,13 +160,29 @@ export class PixelWorld implements WallpaperEffect {
       if (this.fade >= 1) this.prev = null;
     }
 
+    // Fireworks queued by a double-click.
+    this.clock += dt;
+    for (const f of this.pending) if (f.at <= this.clock) this.burst(f.x, f.y);
+    this.pending = this.pending.filter((f) => f.at > this.clock);
+
+    // Press and hold: a trail of magic dust follows the cursor.
+    if (mouse.held) {
+      this.dustIn -= dt;
+      if (this.dustIn <= 0) {
+        this.dustIn = 0.03;
+        const c = SPARK_COLORS[Math.floor(Math.random() * 2)];
+        this.spark(mouse.x / this.P, mouse.y / this.P, (Math.random() - 0.5) * 8, -3 - Math.random() * 6, c, 0.9, 6);
+      }
+    }
+
     for (const s of this.sparks) {
       s.age += dt;
-      s.vy += 30 * dt;
+      s.vy += s.gravity * dt;
+      s.vx *= 1 - dt * 0.8;
       s.x += s.vx * dt;
       s.y += s.vy * dt;
     }
-    this.sparks = this.sparks.filter((s) => s.age < 1.2);
+    this.sparks = this.sparks.filter((s) => s.age < s.life);
   }
 
   draw(g: CanvasRenderingContext2D, ctx: FrameContext): void {
@@ -181,7 +224,7 @@ export class PixelWorld implements WallpaperEffect {
     o.globalAlpha = 1;
 
     for (const s of this.sparks) {
-      o.globalAlpha = 1 - s.age / 1.2;
+      o.globalAlpha = 1 - s.age / s.life;
       o.fillStyle = css(s.color);
       o.fillRect(Math.round(s.x), Math.round(s.y), 1, 1);
     }

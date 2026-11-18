@@ -13,6 +13,13 @@
       <div class="toolbar-group">
         <button id="btn-open" title="Open a Markdown file (O)">Open</button>
         <button id="btn-toc" title="Table of contents (C)">Contents</button>
+        <div id="edit-group" class="split-btn">
+          <button id="btn-edit" title="Edit this document (E)">Edit</button>
+          <button id="btn-save-menu" class="split-caret" title="More save options" aria-label="More save options" aria-haspopup="menu" aria-expanded="false" hidden>
+            <svg viewBox="0 0 12 12" width="10" height="10" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div id="save-menu" class="dropdown" role="menu" hidden></div>
+        </div>
       </div>
       <div id="doc-title" class="toolbar-title">MD Reader</div>
       <div class="toolbar-group">
@@ -26,20 +33,17 @@
 
     <div id="progress" class="no-print"><div id="progress-bar"></div></div>
 
-    <nav id="toc" class="panel no-print" aria-label="Table of contents" hidden>
-      <div class="panel-head">
-        <span>Contents</span>
-        <button class="panel-close" data-close="toc" aria-label="Close contents">×</button>
-      </div>
-      <ol id="toc-list"></ol>
-    </nav>
+    <nav id="toc" class="panel no-print" aria-label="Table of contents" hidden></nav>
 
     <main id="scroller">
       <article id="doc" class="markdown-body"></article>
+      <textarea id="editor" class="no-print" spellcheck="true" aria-label="Markdown source" hidden></textarea>
       <footer id="doc-meta" class="no-print"></footer>
     </main>
 
     <aside id="settings" class="panel no-print" aria-label="Settings" hidden></aside>
+
+    <div id="toast" class="no-print" role="status" aria-live="polite"></div>
 
     <div id="place-banner" class="no-print" aria-live="polite"></div>
 

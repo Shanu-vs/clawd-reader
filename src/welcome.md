@@ -1,6 +1,6 @@
 # Welcome to MD Reader
 
-A calm place to read Markdown. The background is alive: **move your mouse** around the empty space and watch it react, and **click the background** to send out a ripple.
+A calm place to read Markdown. The background is alive: **move your mouse** around the empty space and watch it react, **click the background** to send out a ripple, **double-click** for something bigger, and **press and hold** to play with it.
 
 ## Getting started
 
@@ -12,7 +12,7 @@ A calm place to read Markdown. The background is alive: **move your mouse** arou
 
 Open **Settings** (<kbd>S</kbd>) to change:
 
-1. The **theme**: Paper, Sepia, Night, Ocean, Forest, Midnight Purple, Pixel Quest, High Contrast
+1. The **theme**: Paper (White, Sepia, Sage, Rose), Night (Indigo, Ocean, Forest, Purple, Ember, Graphite), Pixel Quest, High Contrast
 2. **Reading** comfort: font, size, line width, spacing, and how see-through the text backdrop is
 3. The **live wallpaper**: Starfield, Fireflies, Flowing currents, Rain ripples, or the **Pixel world**: the Claude crab scuttling through six pixel-art places (meadow, beach, snowy peaks, desert, autumn woods, under the sea) that change every 30 minutes and follow the time of day. Each one has its own settings for amount, speed, size, brightness, colour and more.
 

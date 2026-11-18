@@ -7,7 +7,7 @@ Built with [Tauri](https://tauri.app) (uses Windows' built-in WebView2, so the a
 ## Features
 
 - **Reading**: open, drag-and-drop or paste Markdown. Syntax-highlighted code, tables, task lists, table of contents, reading progress and reading time. Your last document and scroll position are remembered.
-- **Themes**: Paper, Sepia (light), Night, Ocean, Forest, Midnight Purple, Pixel Quest, High Contrast (dark). Quick light/dark toggle. Pixel Quest gives the whole app a chunky retro-game look with a pixel font.
+- **Themes**: Paper (White, Sepia, Sage, Rose), Night (Indigo, Ocean, Forest, Purple, Ember, Graphite), Pixel Quest, High Contrast. Quick light/dark toggle. Pixel Quest gives the whole app a chunky retro-game look with a pixel font.
 - **Live wallpapers**, each adjustable in Settings:
   - **Starfield**: star count, drift speed and direction, size, brightness, twinkle, shooting stars, parallax, cursor glow, ripple or warp on click.
   - **Fireflies**: wander and blink, gather near the cursor, scatter on click.

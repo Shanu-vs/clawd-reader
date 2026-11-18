@@ -21,4 +21,17 @@
   .markdown-body pre, .markdown-body blockquote, .markdown-body table, .markdown-body img { break-inside: avoid; page-break-inside: avoid; }
   .markdown-body pre { white-space: pre-wrap; word-break: break-word; }
   .markdown-body a { color: #1a4fa3; }
+
+  /* Study-notes layout: title page, each chapter on a new page, explicit page breaks. */
+  .markdown-body .doc-title {
+    min-height: 60vh; display: flex; flex-direction: column; justify-content: center;
+    border: none; break-after: page; page-break-after: always;
+  }
+  .markdown-body h1 { break-before: page; page-break-before: always; margin-top: 0; }
+  .markdown-body > h1:first-child { break-before: auto; page-break-before: auto; }
+  .markdown-body .page-break { display: block; break-after: page; page-break-after: always; }
+  .markdown-body figure, .markdown-body .math-display, .markdown-body table { break-inside: avoid; page-break-inside: avoid; }
+  .markdown-body .math-display { overflow: visible; }
+  .markdown-body figure img { border-radius: 0; }
+  .markdown-body .katex { color: #000; }
 }

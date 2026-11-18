@@ -42,6 +42,12 @@ export class Crab {
     if (this.hopY === 0) this.hopV = -30;
   }
 
+  /** A long, happy wave (used for fireworks). */
+  wave(): void {
+    this.waving = 2.4;
+    this.waveIn = 8 + Math.random() * 6;
+  }
+
   update(dt: number, speed: number): void {
     const moving = speed > 0.05;
     this.walk += dt * (moving ? 3 + speed * 0.5 : 0);

@@ -7,9 +7,11 @@ import { Fireflies } from "./fireflies";
 import { Currents } from "./currents";
 import { Rain } from "./rain";
 import { PixelWorld } from "./pixel/world";
+import { resolvePalette } from "./palettes";
 import type { FrameContext, WallpaperEffect } from "./types";
 
 const STRUCTURAL_KEYS: (keyof Settings)[] = ["wpDensity", "pixelScale", "timeOfDay", "theme", "location", "locationMinutes"];
+const HOLD_MS = 220; // press this long without letting go to start press-and-hold play
 
 function createEffect(style: Settings["wallpaper"]): WallpaperEffect | null {
   switch (style) {
@@ -32,7 +34,8 @@ export class WallpaperHost {
   private w = 0;
   private h = 0;
   private dpr = 1;
-  private mouse = { x: 0, y: 0, active: false };
+  private mouse = { x: 0, y: 0, active: false, down: false, held: false };
+  private downAt = 0;
   private scrollingUntil = 0;
   private reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
@@ -56,7 +59,24 @@ export class WallpaperHost {
     window.addEventListener("blur", () => (this.mouse.active = false));
     window.addEventListener("pointerdown", (e) => {
       if (e.button !== 0 || !this.isClickOnBackground(e.target)) return;
+      this.mouse.x = e.clientX;
+      this.mouse.y = e.clientY;
+      this.mouse.down = getSettings().clickEffect !== "none";
+      this.downAt = performance.now();
       this.effect?.click?.(e.clientX, e.clientY, this.frameContext(0));
+      this.kick();
+    });
+    const release = () => {
+      this.mouse.down = false;
+      this.mouse.held = false;
+    };
+    window.addEventListener("pointerup", release);
+    window.addEventListener("pointercancel", release);
+    window.addEventListener("blur", release);
+    window.addEventListener("dblclick", (e) => {
+      if (!this.isClickOnBackground(e.target) || getSettings().clickEffect === "none") return;
+      window.getSelection()?.removeAllRanges();
+      this.effect?.dblclick?.(e.clientX, e.clientY, this.frameContext(0));
       this.kick();
     });
     document.addEventListener("visibilitychange", () => (document.hidden ? this.stop() : this.loop()));
@@ -102,6 +122,8 @@ export class WallpaperHost {
     const s = getSettings();
     const theme = getTheme(s.theme);
     const r = s.dimBehindText > 0 ? this.getDimRect() : null;
+    this.mouse.held = this.mouse.down && performance.now() - this.downAt > HOLD_MS;
+    const pal = resolvePalette(s, theme);
     return {
       width: this.w,
       height: this.h,
@@ -111,8 +133,9 @@ export class WallpaperHost {
       settings: s,
       colors: {
         bg: theme.vars.bg,
-        primary: s.useThemeColor ? theme.vars.star : s.wpColor,
-        glow: s.useThemeColor ? theme.vars.starGlow : s.wpColor,
+        primary: pal.primary,
+        glow: pal.glow,
+        tones: pal.tones,
       },
       energy: s.focusMode ? 0.35 : 1,
     };

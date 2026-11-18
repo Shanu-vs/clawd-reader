@@ -55,7 +55,7 @@
 .markdown-body hr { border: none; border-top: 1px solid var(--border); margin: 2.2em 0; }
 .markdown-body img { max-width: 100%; border-radius: 8px; }
 
-.markdown-body table { border-collapse: collapse; width: 100%; font-size: 0.92em; display: block; overflow-x: auto; }
+.markdown-body table { border-collapse: collapse; width: 100%; font-size: 0.92em; }
 .markdown-body th, .markdown-body td { border: 1px solid var(--border); padding: 7px 12px; text-align: left; }
 .markdown-body th { background: var(--code-bg); color: var(--heading); }
 
@@ -75,3 +75,47 @@
 :root[data-mode="light"] .hljs-comment, :root[data-mode="light"] .hljs-quote { color: #8a8f99; font-style: italic; }
 :root[data-mode="light"] .hljs-type, :root[data-mode="light"] .hljs-class, :root[data-mode="light"] .hljs-meta { color: #a35f00; }
 :root[data-mode="light"] .hljs-variable, :root[data-mode="light"] .hljs-tag, :root[data-mode="light"] .hljs-name { color: #c4314b; }
+
+/* ---- Title block (% title / % subtitle / % author) ---- */
+.markdown-body .doc-title {
+  text-align: center;
+  padding: 0.6em 0 1.6em;
+  margin-bottom: 1.6em;
+  border-bottom: 1px solid var(--border);
+}
+.doc-title-main { font-size: 2.1em; font-weight: 700; color: var(--heading); line-height: 1.2; }
+.doc-title-sub { font-size: 1.25em; color: var(--heading); margin-top: 0.35em; }
+.doc-title-author { font-size: 0.9em; color: var(--muted); margin-top: 0.9em; }
+
+/* ---- Math (KaTeX) ---- */
+.markdown-body .katex { font-size: 1.08em; color: var(--heading); }
+.markdown-body .math-display {
+  display: flex;
+  align-items: center;
+  margin: 1em 0 1.2em;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+.markdown-body .math-display .math-body { flex: 1; min-width: 0; }
+.markdown-body .math-display .katex-display { margin: 0; }
+.markdown-body .eq-tag { flex: none; padding-left: 1em; color: var(--muted); font-size: 0.95em; }
+.markdown-body .math-display.tagged .math-body { padding-left: 3.2em; } /* keep the formula centred despite the tag */
+
+/* ---- Figures and table captions ---- */
+.markdown-body figure {
+  margin: 1.4em auto 1.6em;
+  width: var(--fig-width, 100%);
+  max-width: 100%;
+  text-align: center;
+}
+.markdown-body figure img { width: 100%; height: auto; border-radius: 6px; background: #fff; }
+.markdown-body figcaption, .markdown-body table caption {
+  font-size: 0.86em;
+  line-height: 1.5;
+  color: var(--muted);
+  text-align: left;
+  margin-top: 0.6em;
+}
+.markdown-body table caption { caption-side: top; margin: 0 0 0.5em; }
+.markdown-body figcaption strong, .markdown-body table caption strong { color: var(--heading); }
+.markdown-body .page-break { display: none; }

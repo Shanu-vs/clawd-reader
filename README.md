@@ -79,6 +79,12 @@ That blue *"Windows protected your PC"* screen is fair to worry about, so here i
 - **Numbered figures** from images that sit alone in a paragraph. The alt text becomes the caption, and `{width=70}` sets the size. Pictures next to the file load straight from disk.
 - **Table captions** with a `Table: …` line above a table, plus a **title block** from `% title:` / `% subtitle:` lines.
 - Syntax-highlighted code, task lists, block quotes, reading time and a progress bar.
+- **Diagrams** with Mermaid: flowcharts, sequence diagrams, timelines, mind maps, Gantt and pie charts. They follow your light or dark theme and work offline.
+- **Callouts** like GitHub and Obsidian: `> [!NOTE]`, `[!TIP]`, `[!IMPORTANT]`, `[!WARNING]`, `[!CAUTION]`, foldable with `+` / `-`.
+- **Footnotes**, ==highlights== (`==text==`), H~2~O-style subscripts and x^2^ superscripts, definition lists and `:emoji:` codes.
+- **Chemistry** with `$\ce{H2O}$`, and GitHub-style ` ```math ` blocks.
+- **Front matter** (the `---` block at the top of Obsidian, Jekyll and Hugo notes) is hidden, and its title is used.
+- **Wiki links**: `[[Other note]]`, `[[Note#Heading]]` and links to other `.md` files open that note; **Alt + ←** goes back. `![[picture.png]]` shows a picture.
 - **Contents panel** like a PDF viewer's sidebar: collapsible chapters that follow your place, and a Figures tab with thumbnails.
 - The page **fits the window** (adjustable width), with an optional comfortable line length.
 - Your last document and scroll position are remembered.
@@ -135,7 +141,7 @@ The pixel world has six places: Green Meadow, Sunny Beach, Snowy Peaks, Desert C
 
 ## Try the sample
 
-[`docs/sample.md`](docs/sample.md) is a short set of study notes that shows off maths, a captioned table, code and a task list. Download it and open it in the app.
+[`docs/sample.md`](docs/sample.md) is a short set of study notes that shows off maths, a captioned table, code and a task list. [`docs/formats.md`](docs/formats.md) is a tour of every format above: diagrams, callouts, footnotes, chemistry and more. Download them and open them in the app.
 
 ## FAQ
 

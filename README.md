@@ -51,8 +51,8 @@ That blue *"Windows protected your PC"* screen is fair to worry about, so here i
 **Why Windows warns you.** The warning doesn't mean a virus was found. Windows shows it for any app that isn't *code-signed* (signing certificates cost a few hundred dollars a year) and hasn't been downloaded by many people yet. Every new indie app gets it, and it fades as more people install it.
 
 **How you can check for yourself:**
-- **Virus scan:** [VirusTotal report for the 0.4.0 installer](https://www.virustotal.com/gui/file/52379cf819bbdf66a56559829ffd0936b73971f9bb3ef14b7ed4648f47ca409b). 69 of 71 antivirus engines find nothing, including Microsoft Defender, Kaspersky, Bitdefender, ESET, Norton, Avast, McAfee and Malwarebytes. The other 2 (Arctic Wolf and SecureAge) are strict engines that often flag new, unsigned installers they haven't seen before; these "false positives" are common for small apps. The report is public, so you can read it yourself.
-- **Same file as released:** each release lists the installer's SHA-256 checksum. In PowerShell, `Get-FileHash .\MD-Reader_0.4.0_x64-setup.exe` should print the same value.
+- **Virus scan:** [VirusTotal report for the 0.5.0 installer](https://www.virustotal.com/gui/file/f3a9168cec51cdecc35004d464c2052f4353565876f1bb5bbbe40135d270b66c). 69 of 71 antivirus engines find nothing, including Microsoft Defender, Kaspersky, Bitdefender, ESET, Norton, Avast, McAfee and Malwarebytes. The other 2 (Arctic Wolf and SecureAge) are strict engines that often flag new, unsigned installers they haven't seen before; these "false positives" are common for small apps. The report is public, so you can read it yourself.
+- **Same file as released:** each release lists the installer's SHA-256 checksum. In PowerShell, `Get-FileHash .\MD-Reader_0.5.0_x64-setup.exe` should print the same value.
 - **Open source:** every line of code is in this repository under the [MIT licence](LICENSE). You can read it, or build the installer yourself (see [For developers](#for-developers)).
 
 **What the app does and doesn't do:**

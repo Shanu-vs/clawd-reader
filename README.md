@@ -6,7 +6,8 @@
 
 <p align="center">
   <b>A calm place to read Markdown.</b><br />
-  Your notes on a quiet reading column, with a live wallpaper drifting behind them.
+  A small, offline Windows app for study notes, docs and books written in Markdown,<br />
+  with maths, diagrams, paper-like themes and an optional live wallpaper behind the page.
 </p>
 
 <p align="center">
@@ -15,34 +16,178 @@
 
 <p align="center">
   <a href="https://github.com/Shanu-vs/clawd-reader/releases/latest"><img src="https://img.shields.io/github/v/release/Shanu-vs/clawd-reader?label=version&color=8fb4ff" alt="Latest version" /></a>
+  <a href="https://github.com/Shanu-vs/clawd-reader/releases"><img src="https://img.shields.io/github/downloads/Shanu-vs/clawd-reader/total?color=f0a060" alt="Downloads" /></a>
   <img src="https://img.shields.io/badge/Windows-10%20%7C%2011-0078d4" alt="Windows 10 and 11" />
   <img src="https://img.shields.io/badge/works-offline-6fc58a" alt="Works offline" />
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-a986ff" alt="MIT licence" /></a>
-  <a href="https://github.com/Shanu-vs/clawd-reader/releases"><img src="https://img.shields.io/github/downloads/Shanu-vs/clawd-reader/total?color=f0a060" alt="Downloads" /></a>
 </p>
 
 <p align="center">
-  <img src="docs/screenshots/starfield.png" width="860" alt="MD Reader showing the welcome page over a starfield" />
+  <a href="#download">Download</a> ·
+  <a href="#a-look-around">Screenshots</a> ·
+  <a href="#features">Features</a> ·
+  <a href="#markdown-support">Markdown support</a> ·
+  <a href="#is-it-safe">Is it safe?</a> ·
+  <a href="#faq">FAQ</a> ·
+  <a href="CHANGELOG.md">Changelog</a> ·
+  <a href="https://github.com/Shanu-vs/clawd-reader/issues/new/choose">Report a bug</a>
+</p>
+
+<p align="center">
+  <img src="docs/screenshots/starfield.png" width="880" alt="MD Reader showing the welcome page over a drifting starfield" />
 </p>
 
 ## Why MD Reader?
 
-- **Made for long reading.** Study notes, documentation, books written in Markdown. Maths, figures, tables and a PDF-style contents sidebar all just work.
-- **Calm to look at.** A starfield, fireflies, slow currents, rain on a pond, or a pixel-art world where **Claw'd** the crab wanders between places. It reacts when you click, and pauses whenever you want.
-- **Tiny and quick.** A small (about 4 MB) installer that opens instantly. It uses the WebView2 already built into Windows instead of shipping a whole browser, so it stays light on memory and battery.
-- **Yours, offline.** No account, no sign-in, no internet needed. Your files stay on your computer.
-- **Easy on the eyes.** 27 themes: calm plain colours, real paper looks (notebook, parchment, graph paper…), warm low-blue-light, true-black OLED and High Contrast.
+- **Made for long reading.** Maths, figures, tables, diagrams and a PDF-style contents sidebar all just work, so study notes and documentation read like a finished book.
+- **Calm to look at.** Choose real paper (notebook, parchment, blueprint…), a plain colour, or a gentle live wallpaper: a starfield, fireflies, slow currents, rain on a pond, or a pixel-art world where **Claw'd** the crab wanders between places.
+- **Small and quick.** A 4 MB installer that opens instantly. It uses the WebView2 engine already built into Windows instead of shipping a whole browser, so it stays light on memory and battery.
+- **Private and offline.** No account, no sign-in, no tracking, no internet needed. Your files stay on your computer.
+- **Easy on the eyes.** 27 themes, including warm low-blue-light, true-black OLED and High Contrast.
 
-## Install
+## A look around
 
-1. **[Download the latest `MD-Reader_…_x64-setup.exe`](https://github.com/Shanu-vs/clawd-reader/releases/latest)** from the Releases page.
-2. Double-click it. If Windows says *"Windows protected your PC"*, click **More info → Run anyway**. (The app isn't code-signed yet; signing certificates cost money, so many small open-source apps show this.)
-3. Click through the setup. No admin rights needed.
-4. Find **MD Reader** in the Start menu or Windows search.
+<table>
+  <tr>
+    <td width="50%"><img src="docs/screenshots/paper-notebook.png" alt="Study notes on the Notebook paper theme, with ruled lines and a red margin" /></td>
+    <td width="50%"><img src="docs/screenshots/paper-parchment.png" alt="A table and equations on the Parchment paper theme" /></td>
+  </tr>
+  <tr>
+    <td align="center"><b>Notebook paper</b>, one of nine paper types</td>
+    <td align="center"><b>Parchment</b> with maths and a captioned table</td>
+  </tr>
+  <tr>
+    <td><img src="docs/screenshots/diagrams-light.png" alt="A flowchart and a sequence diagram drawn from Mermaid code" /></td>
+    <td><img src="docs/screenshots/callouts.png" alt="Note, tip, important, warning and caution callouts" /></td>
+  </tr>
+  <tr>
+    <td align="center"><b>Diagrams</b> from Mermaid code, drawn offline</td>
+    <td align="center"><b>Callouts</b> as in GitHub and Obsidian</td>
+  </tr>
+  <tr>
+    <td><img src="docs/screenshots/study-notes.png" alt="The contents sidebar next to study notes on the Night theme" /></td>
+    <td><img src="docs/screenshots/pixel-world.png" alt="The pixel world wallpaper with Claw'd on a beach" /></td>
+  </tr>
+  <tr>
+    <td align="center"><b>Contents sidebar</b> that follows your place</td>
+    <td align="center"><b>Pixel world</b>, where Claw'd travels between six places</td>
+  </tr>
+  <tr>
+    <td><img src="docs/screenshots/paper-blueprint.png" alt="Code and a table on the Blueprint paper theme" /></td>
+    <td><img src="docs/screenshots/plain-settings.png" alt="The settings panel showing the Plain theme colours" /></td>
+  </tr>
+  <tr>
+    <td align="center"><b>Blueprint</b>, a dark paper theme</td>
+    <td align="center"><b>Settings</b> with the nine Plain colours</td>
+  </tr>
+</table>
+
+## Download
+
+| Platform | Download | Notes |
+| --- | --- | --- |
+| **Windows 10 / 11** (64-bit) | [**MD Reader setup (.exe)**](https://github.com/Shanu-vs/clawd-reader/releases/latest) | 4 MB, installs for your user only, no admin rights |
+| macOS, Linux | Not yet | The app is built with Tauri, so these are possible later |
+
+**Install**
+
+1. Download `MD-Reader_…_x64-setup.exe` from the [latest release](https://github.com/Shanu-vs/clawd-reader/releases/latest).
+2. Run it. If Windows says *"Windows protected your PC"*, choose **More info → Run anyway**. The installer isn't code-signed yet; see [Is it safe?](#is-it-safe).
+3. Click through the setup, then find **MD Reader** in the Start menu or Windows search.
 
 **Open `.md` files with a double-click:** right-click any `.md` file → **Open with → Choose another app → MD Reader**, and tick **Always**.
 
-To uninstall: **Settings → Apps → Installed apps → MD Reader → Uninstall**.
+**Update:** run the newer setup file. It replaces the old version and keeps your settings.
+
+**Uninstall:** **Settings → Apps → Installed apps → MD Reader → Uninstall**.
+
+## Features
+
+### Reading
+- Open files with the **Open** button, a **double-click in Explorer**, by dragging a file onto the window, or paste Markdown with `Ctrl+V`.
+- A **contents sidebar** like a PDF viewer's: collapsible chapters that follow your place, and a Figures tab with thumbnails.
+- **Links between notes**: `[[wiki links]]` and links to other `.md` files open that note; **Alt + ←** goes back.
+- The page **fits the window** (adjustable width), with an optional comfortable line length.
+- Reading time, a progress bar, and your last document and scroll position remembered.
+- **Export to PDF**: clean pages without the wallpaper, each chapter on a new page.
+
+### Editing
+- Documents always open for reading. Press **Edit** and the page becomes its Markdown source.
+- **Save**, **Save as…** and **Stop editing**, with a warning before unsaved changes would be lost.
+- Saving is safe: the app writes to a temporary file first and keeps your file's line endings.
+
+### Themes
+
+| Family | Variations |
+| --- | --- |
+| **Plain**: flat colour, no moving background | White, Sepia, Sage, Rose, Sky, Lavender, Peach, Stone, Charcoal |
+| **Paper**: real paper looks | Notebook, Legal pad, Graph, Dot grid, Parchment, Kraft, Newsprint, Watercolour, Blueprint |
+| **Night**: dark, with a starfield | Indigo, Ocean, Forest, Purple, Ember (low blue light), Graphite, OLED (true black) |
+| **Pixel Quest** | A chunky retro-game look with a pixel font |
+| **High Contrast** | Maximum legibility |
+
+A one-click light/dark switch (`T`) remembers your favourite of each.
+
+### Live wallpapers
+
+Each wallpaper has its own settings and colour palettes (Warm white, Moonlight, Aurora, Deep sea, Sunset, Ember, Lavender, Meadow, or your own colour).
+
+| Wallpaper | Click | Double-click | Press and hold |
+| --- | --- | --- | --- |
+| **Starfield**: drifting, twinkling stars and shooting stars | Ripple | Supernova | Gravity well (let go to slingshot) |
+| **Fireflies**: warm tones, different sizes, slow blinking | Scatter | They all light up | They gather and circle you |
+| **Flowing currents**: slow, soft trails | Swirl | A wide, slow whirlpool | Drag to stir the water |
+| **Rain ripples**: rings spreading on a pond | Splash | A short thunder shower | Rest a finger in the water |
+| **Pixel world**: Claw'd travels through six places | Claw'd hops | Fireworks, and Claw'd waves | Magic dust follows you |
+
+The pixel world visits Green Meadow, Sunny Beach, Snowy Peaks, Desert Canyon, Autumn Woods and Under the Sea. It moves on every 30 minutes (adjustable) with a smooth crossfade, and its sky follows your clock.
+
+### Comfortable to use
+- A **pause button** for the moving background (`W`), and the app follows Windows' "reduce animations" setting.
+- **Focus mode** calms the wallpaper and hides the toolbar until you need it.
+- A frame-rate cap (15–60 fps). The wallpaper pauses when minimised and slows while you scroll.
+- **Right-click** anywhere for a quick menu: theme, wallpaper, text size, page width and more.
+
+## Markdown support
+
+Everything in CommonMark and GitHub Flavored Markdown (tables, task lists, strikethrough, autolinks), plus:
+
+| Format | How to write it |
+| --- | --- |
+| **Maths** (KaTeX) | `$a^2+b^2=c^2$`, `$$ … $$`, numbered `$$[3.5]`, or a ` ```math ` block |
+| **Chemistry** | `$\ce{CO2 + H2O <=> H2CO3}$` |
+| **Diagrams** (Mermaid) | A ` ```mermaid ` block: flowcharts, sequence diagrams, timelines, mind maps, Gantt and pie charts |
+| **Callouts** | `> [!NOTE]`, `[!TIP]`, `[!IMPORTANT]`, `[!WARNING]`, `[!CAUTION]` (and Obsidian's names); add `-` or `+` to make them foldable |
+| **Wiki links** | `[[Note]]`, `[[Note#Heading]]`, `[[Note\|label]]`; `![[picture.png]]` shows a picture |
+| **Footnotes** | `text[^1]` and `[^1]: the note` |
+| **Highlight, sub- and superscript** | `==highlight==`, `H~2~O`, `x^2^` |
+| **Definition lists** | `Term` on one line, `: meaning` on the next |
+| **Emoji** | `:rocket:` → 🚀 |
+| **Front matter** | A `---` block at the top (Obsidian, Jekyll, Hugo) is hidden; its `title:` is used |
+| **Figures** | An image alone in a paragraph becomes a numbered figure; its alt text is the caption, and `{width=70}` sets the size |
+| **Table captions** | A `Table: …` line just above a table |
+| **Title block** | `% title:`, `% subtitle:` and `% author:` lines at the top |
+| **Page breaks** | `\newpage` on its own line (for PDF export) |
+
+Pictures next to your file load straight from disk. Code blocks are syntax-highlighted.
+
+**Try it:** download [`docs/formats.md`](docs/formats.md) (a tour of every format) or [`docs/sample.md`](docs/sample.md) (short study notes) and open them in the app.
+
+## Keyboard shortcuts
+
+| Key | Action |
+| --- | --- |
+| `O` / `Ctrl+O` | Open a file |
+| `E` | Edit the document |
+| `Ctrl+S` / `Ctrl+Shift+S` | Save / Save as (while editing) |
+| `Esc` | Stop editing, or close panels |
+| `C` | Contents sidebar |
+| `S` / `Ctrl+,` | Settings |
+| `T` | Switch light / dark |
+| `F` | Focus mode |
+| `W` | Pause or play the background |
+| `P` / `Ctrl+P` | Export to PDF |
+| `Alt+←` | Back to the previous note |
 
 ## Is it safe?
 
@@ -61,97 +206,17 @@ That blue *"Windows protected your PC"* screen is fair to worry about, so here i
 - It has no account, no ads, no analytics and no auto-updater. The app is locked so it **can't send data anywhere** (its content security policy blocks all network requests). The only things it may download are pictures that your own document links to on the web.
 - It installs just for your user, with no admin rights, and the uninstaller removes it. Tick *"Delete the application data"* there to remove your settings too.
 
-## Screenshots
-
-| Pixel world (Pixel Quest theme) | Study notes with the contents panel |
-| --- | --- |
-| <img src="docs/screenshots/pixel-world.png" alt="Pixel world wallpaper with Claw'd on a beach" /> | <img src="docs/screenshots/study-notes.png" alt="Study notes with maths and the contents sidebar" /> |
-
-| Light theme with settings docked |
-| --- |
-| <img src="docs/screenshots/light-settings.png" width="640" alt="Plain Sage theme with the settings panel docked on the right" /> |
-
-## Features
-
-### Reading
-- Open with the **Open** button, a **double-click in Explorer**, drag a file onto the window, or paste Markdown with `Ctrl+V`.
-- **Maths** with KaTeX: `$inline$` and `$$ display $$` equations, with optional numbers like `$$[3.5]`.
-- **Numbered figures** from images that sit alone in a paragraph. The alt text becomes the caption, and `{width=70}` sets the size. Pictures next to the file load straight from disk.
-- **Table captions** with a `Table: …` line above a table, plus a **title block** from `% title:` / `% subtitle:` lines.
-- Syntax-highlighted code, task lists, block quotes, reading time and a progress bar.
-- **Diagrams** with Mermaid: flowcharts, sequence diagrams, timelines, mind maps, Gantt and pie charts. They follow your light or dark theme and work offline.
-- **Callouts** like GitHub and Obsidian: `> [!NOTE]`, `[!TIP]`, `[!IMPORTANT]`, `[!WARNING]`, `[!CAUTION]`, foldable with `+` / `-`.
-- **Footnotes**, ==highlights== (`==text==`), H~2~O-style subscripts and x^2^ superscripts, definition lists and `:emoji:` codes.
-- **Chemistry** with `$\ce{H2O}$`, and GitHub-style ` ```math ` blocks.
-- **Front matter** (the `---` block at the top of Obsidian, Jekyll and Hugo notes) is hidden, and its title is used.
-- **Wiki links**: `[[Other note]]`, `[[Note#Heading]]` and links to other `.md` files open that note; **Alt + ←** goes back. `![[picture.png]]` shows a picture.
-- **Contents panel** like a PDF viewer's sidebar: collapsible chapters that follow your place, and a Figures tab with thumbnails.
-- The page **fits the window** (adjustable width), with an optional comfortable line length.
-- Your last document and scroll position are remembered.
-
-### Editing
-- Documents always open for reading. Press **Edit** and the page becomes its Markdown source.
-- The button becomes **Save**, and its ▾ menu has **Save as…** and **Stop editing**.
-- Saving is safe: it writes to a temporary file first and keeps your file's line endings.
-- The app warns you before unsaved changes would be lost.
-
-### Themes
-- **Plain**: calm flat colours with no moving background, in White, Sepia, Sage, Rose, Sky, Lavender, Peach, Stone and Charcoal.
-- **Paper**: real paper looks, in Notebook (ruled with a red margin), Legal pad, Graph, Dot grid, Parchment, Kraft, Newsprint, Watercolour and Blueprint.
-- **Night**, in Indigo, Ocean, Forest, Purple, Ember (warm, low blue light), Graphite and **OLED** (true black, easy on battery and eyes at night).
-- **Pixel Quest**: a chunky retro-game look with a pixel font.
-- **High Contrast**.
-- A one-click light/dark switch remembers your favourite of each.
-
-### Live wallpapers
-Each one has its own settings and colour palettes (Warm white, Moonlight, Aurora, Deep sea, Sunset, Ember, Lavender, Meadow, or your own colour).
-
-| Wallpaper | Click | Double-click | Press and hold |
-| --- | --- | --- | --- |
-| **Starfield**: drifting, twinkling stars and shooting stars | Ripple | Supernova | Gravity well (let go to slingshot) |
-| **Fireflies**: warm tones, different sizes, slow blinking | Scatter | They all light up | They gather and circle you |
-| **Flowing currents**: slow, soft trails | Swirl | A wide, slow whirlpool | Drag to stir the water |
-| **Rain ripples**: rings spreading on a pond | Splash | A short thunder shower | Rest a finger in the water |
-| **Pixel world**: Claw'd travels through six places | Claw'd hops | Fireworks, and Claw'd waves | Magic dust follows you |
-
-The pixel world has six places: Green Meadow, Sunny Beach, Snowy Peaks, Desert Canyon, Autumn Woods and Under the Sea. It moves on every 30 minutes (adjustable) with a smooth crossfade, and the sky follows your clock.
-
-### Comfortable to use
-- A **pause button** for the moving background (`W`). The app also follows Windows' "reduce animations" setting.
-- **Focus mode** calms the wallpaper and hides the toolbar until you need it.
-- A frame-rate cap (15–60 fps). The wallpaper pauses when minimised and slows while you scroll.
-- **Right-click** anywhere for a quick menu: theme, wallpaper, text size, page width and more.
-- The toolbar is the window's title bar, with Windows-style controls.
-- **Export to PDF**: clean pages without the wallpaper, each chapter on a new page.
-
-## Keyboard shortcuts
-
-| Key | Action |
-| --- | --- |
-| `O` / `Ctrl+O` | Open a file |
-| `E` | Edit the document |
-| `Ctrl+S` / `Ctrl+Shift+S` | Save / Save as (while editing) |
-| `Esc` | Stop editing, or close panels |
-| `C` | Contents panel |
-| `S` / `Ctrl+,` | Settings |
-| `T` | Switch light / dark |
-| `F` | Focus mode |
-| `W` | Pause or play the background |
-| `P` / `Ctrl+P` | Export to PDF |
-
-## Try the sample
-
-[`docs/sample.md`](docs/sample.md) is a short set of study notes that shows off maths, a captioned table, code and a task list. [`docs/formats.md`](docs/formats.md) is a tour of every format above: diagrams, callouts, footnotes, chemistry and more. Download them and open them in the app.
-
 ## FAQ
 
 **Is it free?** Yes, and open source under the [MIT licence](LICENSE).
 
 **Mac or Linux?** Windows 10 and 11 only for now.
 
-**Why does Windows warn me when installing?** The installer isn't code-signed, so SmartScreen doesn't recognise it yet. See [Is it safe?](#is-it-safe) for the virus scan and how to check the file.
-
 **Does it need the internet?** No. It only loads pictures from the web if your document links to them.
+
+**Can I edit notes, or only read them?** Both. Notes open for reading; press **Edit** to change the Markdown and **Save** when you're done.
+
+**Does it work with my Obsidian vault?** Yes for reading: callouts, wiki links, picture embeds and front matter all work. Wiki links look for the note in the same folder as the open note (or the path you write, like `[[folder/Note]]`).
 
 **Windows 10 says something about WebView2.** Windows 11 already has it. On an older Windows 10, the installer downloads it for you.
 
@@ -159,12 +224,16 @@ The pixel world has six places: Green Meadow, Sunny Beach, Snowy Peaks, Desert C
 
 - [x] Open `.md` files by double-clicking them in Explorer
 - [x] Ready-made installer on the Releases page
+- [x] Diagrams, callouts, footnotes and wiki links
+- [ ] Diagram colours that match each theme
 - [ ] Reload automatically when the file changes on disk
 - [ ] Recent files
 - [ ] Find in document (`Ctrl+F`)
 - [ ] Gentle ambient sounds to match each wallpaper
 
-Ideas and bug reports are welcome in [Issues](https://github.com/Shanu-vs/clawd-reader/issues).
+## Contributing
+
+Bug reports and ideas are very welcome. Please use the [issue forms](https://github.com/Shanu-vs/clawd-reader/issues/new/choose); a screenshot and the Markdown that caused a problem help a lot. Pull requests are welcome too: for anything bigger than a small fix, open an issue first so we can agree on the approach. Changes between versions are listed in the [changelog](CHANGELOG.md).
 
 ## For developers
 
@@ -209,11 +278,12 @@ The setup file appears in `src-tauri/target/release/bundle/nsis/`.
 
 ```
 src/
-  main.ts                 app wiring: documents, toolbar, shortcuts, drag & drop, window
-  markdown.ts             Markdown -> safe HTML: maths, figures, captions, task lists
+  main.ts                 app wiring: documents, toolbar, shortcuts, links between notes, window
+  markdown.ts             Markdown -> safe HTML: maths, figures, callouts, wiki links, front matter
+  diagrams.ts             Mermaid diagrams, loaded only when a document has one
   desktop.ts              desktop-only helpers: open/save dialogs, reading and writing files
   settings.ts             typed settings with defaults, saved locally
-  themes.ts               theme families and their colour variations
+  themes.ts               theme families, colour variations and paper textures
   ui/
     editor.ts             edit mode, Save / Save as
     contents.ts           contents sidebar (chapters and figures)
@@ -229,7 +299,7 @@ src/
     pixel/                the pixel world: places, scenery, weather and Claw'd
   styles/                 app, Markdown and print (PDF) styles
 src-tauri/                desktop wrapper (Rust): file access, window, installer
-docs/                     sample document and screenshots
+docs/                     sample notes, formats tour and screenshots
 ```
 
 </details>
@@ -242,4 +312,4 @@ docs/                     sample document and screenshots
 
 Claw'd, the Claude crab, is Anthropic's character. This is an unofficial, fan-made project and is not affiliated with or endorsed by Anthropic.
 
-Built with [Tauri](https://tauri.app), [Vite](https://vite.dev), [markdown-it](https://github.com/markdown-it/markdown-it), [KaTeX](https://katex.org), [highlight.js](https://highlightjs.org), [DOMPurify](https://github.com/cure53/DOMPurify) and [Pixelify Sans](https://fonts.google.com/specimen/Pixelify+Sans). The settings icon is adapted from [Feather Icons](https://feathericons.com) (MIT).
+Built with [Tauri](https://tauri.app), [Vite](https://vite.dev), [markdown-it](https://github.com/markdown-it/markdown-it) and its plugins, [KaTeX](https://katex.org), [Mermaid](https://mermaid.js.org), [highlight.js](https://highlightjs.org), [DOMPurify](https://github.com/cure53/DOMPurify) and [Pixelify Sans](https://fonts.google.com/specimen/Pixelify+Sans). The settings icon is adapted from [Feather Icons](https://feathericons.com) (MIT).

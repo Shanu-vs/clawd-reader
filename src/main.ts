@@ -6,12 +6,13 @@ import "./styles/markdown.css";
 import "./styles/print.css";
 
 import welcome from "./welcome.md?raw";
-import { renderMarkdown, readingStats } from "./markdown";
+import { renderMarkdown, readingStats, slugify } from "./markdown";
+import { renderDiagrams } from "./diagrams";
 import { getSettings, onSettingsChange, updateSettings, type Settings } from "./settings";
 import { applyTheme, getTheme } from "./themes";
 import { WallpaperHost } from "./wallpaper/host";
 import { buildSettingsPanel } from "./ui/settingsPanel";
-import { isDesktop, loadLocalImages, onFileDrop, pickFile, readPath, setWindowTitle, splitPath, startupFile, type OpenedFile } from "./desktop";
+import { imagePath, isDesktop, loadLocalImages, onFileDrop, pickFile, readPath, setWindowTitle, splitPath, startupFile, type OpenedFile } from "./desktop";
 import { Editor } from "./ui/editor";
 import { applyIcons } from "./ui/icons";
 import { installAbout } from "./ui/about";
@@ -81,9 +82,15 @@ onSettingsChange((s, changed) => {
     // Each theme family remembers the colour variation picked last.
     if (s.themePicks[t.family] !== t.id) patch.themePicks = { ...s.themePicks, [t.family]: t.id };
     if (Object.keys(patch).length) updateSettings(patch);
+    // Diagrams use light or dark colours; redraw them when that flips.
+    if (doc.dataset.diagramTheme && doc.dataset.diagramTheme !== (isDarkTheme() ? "dark" : "light")) renderDiagrams(doc, isDarkTheme());
   }
   applyAppearance(s);
 });
+
+function isDarkTheme(): boolean {
+  return getTheme(getSettings().theme).mode === "dark";
+}
 
 // ---------- Contents panel (chapters + figures) ----------
 const contents = new ContentsPanel(toc, doc, () => togglePanel(toc, false));
@@ -151,6 +158,10 @@ function loadDocument(text: string, name: string, opts: LoadOptions = {}): void 
       contents.refreshFigures();
     });
   }
+  // Diagrams are drawn a moment later and change the page height, so restore the place again.
+  renderDiagrams(doc, isDarkTheme()).then(() => {
+    if (restoreScroll) restore();
+  });
 
   if (name !== "Welcome") {
     try {
@@ -302,6 +313,14 @@ doc.addEventListener("click", async (e) => {
   const a = (e.target as Element).closest<HTMLAnchorElement>("a[href]");
   if (!a) return;
   const href = a.getAttribute("href")!;
+  // [[Wiki links]] and links to other .md files open that note in the app.
+  const wiki = a.dataset.wiki;
+  const mdLink = /^(?![a-z][\w+.-]*:)([^#?]+\.(?:md|markdown|mdown|mkd|mkdn))(#.*)?$/i.exec(href);
+  if (wiki !== undefined || mdLink) {
+    e.preventDefault();
+    const [file, part] = wiki !== undefined ? splitOnce(wiki, "#") : [decodeURI(mdLink![1]), mdLink![2]?.slice(1)];
+    return openNote(file, part);
+  }
   if (href.startsWith("#")) {
     e.preventDefault();
     document.getElementById(decodeURIComponent(href.slice(1)))?.scrollIntoView({ behavior: "smooth" });
@@ -311,6 +330,54 @@ doc.addEventListener("click", async (e) => {
     e.preventDefault();
     const { openUrl } = await import("@tauri-apps/plugin-opener");
     openUrl(href).catch((err) => console.error("Could not open link", err));
+  }
+});
+
+// ---------- Links between notes ----------
+function splitOnce(s: string, sep: string): [string, string | undefined] {
+  const i = s.indexOf(sep);
+  return i < 0 ? [s, undefined] : [s.slice(0, i), s.slice(i + 1)];
+}
+
+/** Scroll to a heading named in a link ("Note#Some heading"). */
+function scrollToPart(part?: string): void {
+  if (!part) return;
+  (document.getElementById(slugify(part)) ?? document.getElementById(part))?.scrollIntoView({ behavior: "smooth" });
+}
+
+const backStack: { path: string; scroll: number }[] = [];
+
+/** Open another note next to this one: [[Note]], [[folder/Note#Heading]] or [text](Note.md). */
+async function openNote(file: string, part?: string): Promise<void> {
+  file = file.trim();
+  if (!file) return scrollToPart(part); // [[#Heading]] points into this note
+  if (!isDesktop || !currentDir) {
+    return showError("Links to other notes work in the desktop app, for notes opened from your computer.");
+  }
+  const name = /\.(md|markdown|mdown|mkd|mkdn|txt)$/i.test(file) ? file : `${file}.md`;
+  const path = imagePath(currentDir, name);
+  if (!(await canLeave())) return;
+  let opened: OpenedFile;
+  try {
+    opened = await readPath(path);
+  } catch {
+    return showError(`Couldn't find "${name}" next to this note.`);
+  }
+  if (currentPath) backStack.push({ path: currentPath, scroll: scroller.scrollTop });
+  await showOpened(opened);
+  scrollToPart(part);
+  if (backStack.length === 1) showToast("Press Alt + ← to go back");
+}
+
+async function goBack(): Promise<void> {
+  const prev = backStack.pop();
+  if (prev) await openPath(prev.path, prev.scroll);
+}
+// The mouse's back button works too.
+window.addEventListener("mouseup", (e) => {
+  if (e.button === 3) {
+    e.preventDefault();
+    goBack();
   }
 });
 
@@ -357,12 +424,16 @@ const actions = {
     const dark = getTheme(s.theme).mode === "dark";
     updateSettings({ theme: dark ? s.lastLightTheme : s.lastDarkTheme });
   },
-  pdf: () => {
+  pdf: async () => {
     togglePanel(settingsEl, false);
+    // PDF pages are white, so diagrams drawn for a dark theme are redrawn in light colours first.
+    const darkDiagrams = doc.dataset.diagramTheme === "dark";
+    if (darkDiagrams) await renderDiagrams(doc, false);
     const prev = document.title;
     document.title = currentName; // becomes the default PDF file name
     window.print();
     document.title = prev;
+    if (darkDiagrams) renderDiagrams(doc, isDarkTheme());
   },
 };
 
@@ -425,6 +496,11 @@ document.addEventListener("keydown", (e) => {
   if (e.ctrlKey && e.key.toLowerCase() === "p") {
     e.preventDefault();
     return actions.pdf();
+  }
+  if (e.altKey && e.key === "ArrowLeft") {
+    e.preventDefault();
+    goBack();
+    return;
   }
   if (e.ctrlKey || e.altKey || e.metaKey) return;
   const map: Record<string, () => void> = { o: actions.open, c: actions.toc, e: actions.edit, w: actions.pause, s: actions.settings, f: actions.focus, t: actions.mode, p: actions.pdf };

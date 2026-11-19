@@ -129,3 +129,68 @@
   accent-color: var(--accent); opacity: 1;
 }
 .markdown-body li.task:has(> input:checked), .markdown-body li.task:has(> p > input:checked) { color: var(--muted); }
+
+/* ---- Callouts: > [!NOTE], [!TIP], [!IMPORTANT], [!WARNING], [!CAUTION] ---- */
+.markdown-body .callout {
+  --c: #3b82c4;
+  margin: 0 0 1.1em;
+  padding: 0.7em 1.1em 0.2em;
+  border-left: 4px solid var(--c);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--c) 9%, transparent);
+}
+.markdown-body .callout-tip { --c: #2f9a5c; }
+.markdown-body .callout-important { --c: #8b5cf6; }
+.markdown-body .callout-warning { --c: #d4890f; }
+.markdown-body .callout-caution { --c: #d6455d; }
+:root[data-mode="dark"] .markdown-body .callout { --c: #6ea8ff; }
+:root[data-mode="dark"] .markdown-body .callout-tip { --c: #4fc987; }
+:root[data-mode="dark"] .markdown-body .callout-important { --c: #b195ff; }
+:root[data-mode="dark"] .markdown-body .callout-warning { --c: #f2b544; }
+:root[data-mode="dark"] .markdown-body .callout-caution { --c: #ff7a8a; }
+.markdown-body .callout-title {
+  display: flex; align-items: center; gap: 0.5em;
+  margin-bottom: 0.5em;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  color: var(--c);
+}
+.markdown-body .callout-icon { flex: none; }
+.markdown-body summary.callout-title { cursor: pointer; list-style: none; }
+.markdown-body summary.callout-title::-webkit-details-marker { display: none; }
+.markdown-body summary.callout-title::after { content: "▸"; margin-left: auto; transition: transform 0.15s; }
+.markdown-body details.callout[open] > summary.callout-title::after { transform: rotate(90deg); }
+.markdown-body details.callout:not([open]) { padding-bottom: 0.2em; }
+.markdown-body .callout-body > :last-child { margin-bottom: 0.6em; }
+
+/* ---- ==Highlight==, H~2~O, x^2^ ---- */
+.markdown-body mark {
+  color: inherit;
+  background: color-mix(in srgb, #ffd84d 55%, transparent);
+  border-radius: 3px;
+  padding: 0 0.15em;
+}
+:root[data-mode="dark"] .markdown-body mark { background: color-mix(in srgb, #ffd84d 32%, transparent); }
+.markdown-body sub, .markdown-body sup { font-size: 0.75em; line-height: 0; }
+
+/* ---- Footnotes ---- */
+.markdown-body .footnote-ref a { text-decoration: none; padding: 0 0.1em; }
+.markdown-body hr.footnotes-sep { margin: 2.4em 0 1em; }
+.markdown-body .footnotes { font-size: 0.88em; color: var(--muted); }
+.markdown-body .footnotes ol { padding-left: 1.4em; }
+.markdown-body .footnotes p { margin: 0 0 0.4em; }
+.markdown-body .footnote-backref { text-decoration: none; margin-left: 0.2em; }
+
+/* ---- Definition lists ---- */
+.markdown-body dl { margin: 0 0 1.1em; }
+.markdown-body dt { font-weight: 600; color: var(--heading); margin-top: 0.6em; }
+.markdown-body dd { margin: 0.2em 0 0.4em 1.4em; }
+
+/* ---- [[Wiki links]] ---- */
+.markdown-body a.wikilink { text-decoration-style: dashed; }
+
+/* ---- Mermaid diagrams ---- */
+.markdown-body .diagram { margin: 1.4em 0 1.6em; text-align: center; overflow-x: auto; }
+.markdown-body .diagram svg { max-width: 100%; height: auto; }
+.markdown-body .diagram-src { text-align: left; }
+.markdown-body .diagram-error-msg { margin-bottom: 0.5em; color: #d6455d; font-size: 0.88em; text-align: left; }

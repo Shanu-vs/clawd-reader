@@ -31,7 +31,7 @@
 - **Calm to look at.** A starfield, fireflies, slow currents, rain on a pond, or a pixel-art world where **Claw'd** the crab wanders between places. It reacts when you click, and pauses whenever you want.
 - **Tiny and quick.** A 3 MB installer that opens instantly. It uses the WebView2 already built into Windows instead of shipping a whole browser, so it stays light on memory and battery.
 - **Yours, offline.** No account, no sign-in, no internet needed. Your files stay on your computer.
-- **Easy on the eyes.** 13 themes, including warm low-blue-light, true-black OLED and High Contrast.
+- **Easy on the eyes.** 27 themes: calm plain colours, real paper looks (notebook, parchment, graph paper…), warm low-blue-light, true-black OLED and High Contrast.
 
 ## Install
 
@@ -69,7 +69,7 @@ That blue *"Windows protected your PC"* screen is fair to worry about, so here i
 
 | Light theme with settings docked |
 | --- |
-| <img src="docs/screenshots/light-settings.png" width="640" alt="Paper Sage theme with the settings panel docked on the right" /> |
+| <img src="docs/screenshots/light-settings.png" width="640" alt="Plain Sage theme with the settings panel docked on the right" /> |
 
 ## Features
 
@@ -90,7 +90,8 @@ That blue *"Windows protected your PC"* screen is fair to worry about, so here i
 - The app warns you before unsaved changes would be lost.
 
 ### Themes
-- **Paper**, in White, Sepia, Sage and Rose.
+- **Plain**: calm flat colours with no moving background, in White, Sepia, Sage, Rose, Sky, Lavender, Peach, Stone and Charcoal.
+- **Paper**: real paper looks, in Notebook (ruled with a red margin), Legal pad, Graph, Dot grid, Parchment, Kraft, Newsprint, Watercolour and Blueprint.
 - **Night**, in Indigo, Ocean, Forest, Purple, Ember (warm, low blue light), Graphite and **OLED** (true black, easy on battery and eyes at night).
 - **Pixel Quest**: a chunky retro-game look with a pixel font.
 - **High Contrast**.

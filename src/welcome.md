@@ -12,7 +12,7 @@ A calm place to read Markdown. The background is alive: **move your mouse** arou
 
 Open **Settings** (<kbd>S</kbd>) to change:
 
-1. The **theme**: Paper (White, Sepia, Sage, Rose), Night (Indigo, Ocean, Forest, Purple, Ember, Graphite, OLED), Pixel Quest, High Contrast
+1. The **theme**: Plain (flat colours, no moving background), Paper (Notebook, Legal pad, Graph, Dot grid, Parchment, Kraft, Newsprint, Watercolour, Blueprint), Night (Indigo, Ocean, Forest, Purple, Ember, Graphite, OLED), Pixel Quest, High Contrast
 2. **Reading** comfort: font, size, line width, spacing, and how see-through the text backdrop is
 3. The **live wallpaper**: Starfield, Fireflies, Flowing currents, Rain ripples, or the **Pixel world**: the Claude crab scuttling through six pixel-art places (meadow, beach, snowy peaks, desert, autumn woods, under the sea) that change every 30 minutes and follow the time of day. Each one has its own settings for amount, speed, size, brightness, colour and more.
 

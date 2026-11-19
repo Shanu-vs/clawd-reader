@@ -9,6 +9,7 @@
 
   html, body { height: auto; overflow: visible; background: #fff !important; color: #1d1d1f; }
   #wallpaper, .no-print, .panel { display: none !important; }
+  body::before { display: none !important; }
 
   #scroller { position: static; overflow: visible; padding: 0; }
   #doc {

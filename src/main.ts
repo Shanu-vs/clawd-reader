@@ -10,7 +10,7 @@ import { renderMarkdown, readingStats } from "./markdown";
 import { getSettings, onSettingsChange, updateSettings, type Settings } from "./settings";
 import { applyTheme, getTheme } from "./themes";
 import { WallpaperHost } from "./wallpaper/host";
-import { buildSettingsPanel } from "./ui/settingsPanel";
+import { buildSettingsPanel, chooseTheme } from "./ui/settingsPanel";
 import { isDesktop, loadLocalImages, onFileDrop, pickFile, readPath, setWindowTitle, splitPath, startupFile, type OpenedFile } from "./desktop";
 import { Editor } from "./ui/editor";
 import { applyIcons } from "./ui/icons";
@@ -42,6 +42,7 @@ let currentDir: string | undefined;
 // ---------- Theme & reading appearance ----------
 function applyAppearance(s: Settings): void {
   applyTheme(getTheme(s.theme));
+  document.documentElement.dataset.wall = s.wallpaper;
   const root = document.documentElement.style;
   root.setProperty("--reading-font", `var(--font-${s.font})`);
   root.setProperty("--reading-size", `${s.fontSize}px`);
@@ -355,7 +356,7 @@ const actions = {
   mode: () => {
     const s = getSettings();
     const dark = getTheme(s.theme).mode === "dark";
-    updateSettings({ theme: dark ? s.lastLightTheme : s.lastDarkTheme });
+    chooseTheme(dark ? s.lastLightTheme : s.lastDarkTheme);
   },
   pdf: () => {
     togglePanel(settingsEl, false);

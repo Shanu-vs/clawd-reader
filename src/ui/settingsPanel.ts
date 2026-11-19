@@ -358,7 +358,8 @@ function buildThemePicker(updaters: (() => void)[]): HTMLElement {
     variants.hidden = members.length < 2;
     if (shownFamily !== cur.family) {
       shownFamily = cur.family;
-      variants.innerHTML = `<div class="tv-label">${FAMILIES.find((f) => f.id === cur.family)!.name} colours</div>`;
+      const famName = FAMILIES.find((f) => f.id === cur.family)!.name;
+      variants.innerHTML = `<div class="tv-label">${cur.family === "paper" ? "Paper types" : `${famName} colours`}</div>`;
       const row = document.createElement("div");
       row.className = "tv-row";
       for (const t of members) {

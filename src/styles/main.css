@@ -51,6 +51,18 @@ button:focus-visible, select:focus-visible, input:focus-visible { outline: 2px s
   z-index: 0;
   display: block;
 }
+/* Wallpaper off: the canvas steps aside for the theme's flat colour, or its paper texture. */
+:root[data-wall="none"] #wallpaper { display: none; }
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-color: var(--bg);
+  background-image: var(--paper-image, none);
+  background-size: var(--paper-size, auto);
+}
 
 /* ---------- Toolbar ---------- */
 #toolbar {

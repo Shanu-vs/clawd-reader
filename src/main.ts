@@ -110,6 +110,9 @@ interface LoadOptions {
   dir?: string;
 }
 
+/** Resolves once the current document's pictures and diagrams are in (its height is final). */
+let pageSettled: Promise<void> = Promise.resolve();
+
 function loadDocument(text: string, name: string, opts: LoadOptions = {}): void {
   const restoreScroll = opts.restoreScroll ?? 0;
   currentName = name;
@@ -152,16 +155,17 @@ function loadDocument(text: string, name: string, opts: LoadOptions = {}): void 
       img.classList.add("missing");
     }
   }
-  if (localImages) {
-    loadLocalImages(doc, opts.dir!).then(() => {
-      if (restoreScroll) restore();
-      contents.refreshFigures();
-    });
-  }
+  const images = localImages
+    ? loadLocalImages(doc, opts.dir!).then(() => {
+        if (restoreScroll) restore();
+        contents.refreshFigures();
+      })
+    : Promise.resolve();
   // Diagrams are drawn a moment later and change the page height, so restore the place again.
-  renderDiagrams(doc, isDarkTheme()).then(() => {
+  const diagrams = renderDiagrams(doc, isDarkTheme()).then(() => {
     if (restoreScroll) restore();
   });
+  pageSettled = Promise.all([images, diagrams]).then(() => {});
 
   if (name !== "Welcome") {
     try {
@@ -367,6 +371,8 @@ async function openNote(file: string, part?: string): Promise<void> {
   await showOpened(opened);
   scrollToPart(part);
   if (backStack.length === 1) showToast("Press Alt + ← to go back");
+  // Pictures and diagrams can move the heading once they load; land on it again.
+  if (part) pageSettled.then(() => scrollToPart(part));
 }
 
 async function goBack(): Promise<void> {

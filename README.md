@@ -11,12 +11,12 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Shanu-vs/clawd-reader/releases/latest"><img src="https://img.shields.io/badge/Download_for_Windows-4_MB-2a5db0?style=for-the-badge&logo=windows&logoColor=white" alt="Download for Windows" /></a>
+  <a href="https://github.com/Shanu-vs/md-reader/releases/latest"><img src="https://img.shields.io/badge/Download_for_Windows-4_MB-2a5db0?style=for-the-badge&logo=windows&logoColor=white" alt="Download for Windows" /></a>
 </p>
 
 <p align="center">
-  <a href="https://github.com/Shanu-vs/clawd-reader/releases/latest"><img src="https://img.shields.io/github/v/release/Shanu-vs/clawd-reader?label=version&color=8fb4ff" alt="Latest version" /></a>
-  <a href="https://github.com/Shanu-vs/clawd-reader/releases"><img src="https://img.shields.io/github/downloads/Shanu-vs/clawd-reader/total?color=f0a060" alt="Downloads" /></a>
+  <a href="https://github.com/Shanu-vs/md-reader/releases/latest"><img src="https://img.shields.io/github/v/release/Shanu-vs/md-reader?label=version&color=8fb4ff" alt="Latest version" /></a>
+  <a href="https://github.com/Shanu-vs/md-reader/releases"><img src="https://img.shields.io/github/downloads/Shanu-vs/md-reader/total?color=f0a060" alt="Downloads" /></a>
   <img src="https://img.shields.io/badge/Windows-10%20%7C%2011-0078d4" alt="Windows 10 and 11" />
   <img src="https://img.shields.io/badge/works-offline-6fc58a" alt="Works offline" />
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-a986ff" alt="MIT licence" /></a>
@@ -30,7 +30,7 @@
   <a href="#is-it-safe">Is it safe?</a> ·
   <a href="#faq">FAQ</a> ·
   <a href="CHANGELOG.md">Changelog</a> ·
-  <a href="https://github.com/Shanu-vs/clawd-reader/issues/new/choose">Report a bug</a>
+  <a href="https://github.com/Shanu-vs/md-reader/issues/new/choose">Report a bug</a>
 </p>
 
 <p align="center">
@@ -86,12 +86,12 @@
 
 | Platform | Download | Notes |
 | --- | --- | --- |
-| **Windows 10 / 11** (64-bit) | [**MD Reader setup (.exe)**](https://github.com/Shanu-vs/clawd-reader/releases/latest) | 4 MB, installs for your user only, no admin rights |
+| **Windows 10 / 11** (64-bit) | [**MD Reader setup (.exe)**](https://github.com/Shanu-vs/md-reader/releases/latest) | 4 MB, installs for your user only, no admin rights |
 | macOS, Linux | Not yet | The app is built with Tauri, so these are possible later |
 
 **Install**
 
-1. Download `MD-Reader_…_x64-setup.exe` from the [latest release](https://github.com/Shanu-vs/clawd-reader/releases/latest).
+1. Download `MD-Reader_…_x64-setup.exe` from the [latest release](https://github.com/Shanu-vs/md-reader/releases/latest).
 2. Run it. If Windows says *"Windows protected your PC"*, choose **More info → Run anyway**. The installer isn't code-signed yet; see [Is it safe?](#is-it-safe).
 3. Click through the setup, then find **MD Reader** in the Start menu or Windows search.
 
@@ -233,7 +233,7 @@ That blue *"Windows protected your PC"* screen is fair to worry about, so here i
 
 ## Contributing
 
-Bug reports and ideas are very welcome. Please use the [issue forms](https://github.com/Shanu-vs/clawd-reader/issues/new/choose); a screenshot and the Markdown that caused a problem help a lot. Pull requests are welcome too: for anything bigger than a small fix, open an issue first so we can agree on the approach. Changes between versions are listed in the [changelog](CHANGELOG.md).
+Bug reports and ideas are very welcome. Please use the [issue forms](https://github.com/Shanu-vs/md-reader/issues/new/choose); a screenshot and the Markdown that caused a problem help a lot. Pull requests are welcome too: for anything bigger than a small fix, open an issue first so we can agree on the approach. Changes between versions are listed in the [changelog](CHANGELOG.md).
 
 ## For developers
 

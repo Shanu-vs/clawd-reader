@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to MD Reader are listed here. Versions follow [semantic versioning](https://semver.org); installers are on the [Releases page](https://github.com/Shanu-vs/clawd-reader/releases).
+All notable changes to MD Reader are listed here. Versions follow [semantic versioning](https://semver.org); installers are on the [Releases page](https://github.com/Shanu-vs/md-reader/releases).
 
 ## [0.5.0] - 2026-11-19
 
@@ -52,7 +52,7 @@ All notable changes to MD Reader are listed here. Versions follow [semantic vers
 
 - First version of the desktop app.
 
-[0.5.0]: https://github.com/Shanu-vs/clawd-reader/releases/tag/v0.5.0
-[0.4.0]: https://github.com/Shanu-vs/clawd-reader/releases/tag/v0.4.0
-[0.3.0]: https://github.com/Shanu-vs/clawd-reader/compare/v0.2.0...v0.3.0
-[0.2.0]: https://github.com/Shanu-vs/clawd-reader/tree/v0.2.0
+[0.5.0]: https://github.com/Shanu-vs/md-reader/releases/tag/v0.5.0
+[0.4.0]: https://github.com/Shanu-vs/md-reader/releases/tag/v0.4.0
+[0.3.0]: https://github.com/Shanu-vs/md-reader/compare/v0.2.0...v0.3.0
+[0.2.0]: https://github.com/Shanu-vs/md-reader/tree/v0.2.0

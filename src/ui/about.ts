@@ -2,7 +2,7 @@
 import { version } from "../../package.json";
 import { isDesktop } from "../desktop";
 
-const REPO = "https://github.com/Shanu-vs/clawd-reader";
+const REPO = "https://github.com/Shanu-vs/md-reader";
 
 export function installAbout(): () => void {
   const dlg = document.getElementById("about") as HTMLDialogElement;

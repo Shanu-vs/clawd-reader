@@ -4,7 +4,7 @@ version = "0.5.0"
 description = "A calm Markdown reader with a live starfield"
 authors = []
 license = "MIT"
-repository = ""
+repository = "https://github.com/Shanu-vs/md-reader"
 edition = "2024"
 rust-version = "1.90"
 

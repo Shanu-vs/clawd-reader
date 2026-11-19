@@ -10,7 +10,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Shanu-vs/clawd-reader/releases/latest"><img src="https://img.shields.io/badge/Download_for_Windows-3_MB-2a5db0?style=for-the-badge&logo=windows&logoColor=white" alt="Download for Windows" /></a>
+  <a href="https://github.com/Shanu-vs/clawd-reader/releases/latest"><img src="https://img.shields.io/badge/Download_for_Windows-4_MB-2a5db0?style=for-the-badge&logo=windows&logoColor=white" alt="Download for Windows" /></a>
 </p>
 
 <p align="center">
@@ -29,7 +29,7 @@
 
 - **Made for long reading.** Study notes, documentation, books written in Markdown. Maths, figures, tables and a PDF-style contents sidebar all just work.
 - **Calm to look at.** A starfield, fireflies, slow currents, rain on a pond, or a pixel-art world where **Claw'd** the crab wanders between places. It reacts when you click, and pauses whenever you want.
-- **Tiny and quick.** A 3 MB installer that opens instantly. It uses the WebView2 already built into Windows instead of shipping a whole browser, so it stays light on memory and battery.
+- **Tiny and quick.** A small (about 4 MB) installer that opens instantly. It uses the WebView2 already built into Windows instead of shipping a whole browser, so it stays light on memory and battery.
 - **Yours, offline.** No account, no sign-in, no internet needed. Your files stay on your computer.
 - **Easy on the eyes.** 27 themes: calm plain colours, real paper looks (notebook, parchment, graph paper…), warm low-blue-light, true-black OLED and High Contrast.
 

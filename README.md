@@ -154,7 +154,7 @@ Everything in CommonMark and GitHub Flavored Markdown (tables, task lists, strik
 
 | Format | How to write it |
 | --- | --- |
-| **Maths** (KaTeX) | `$a^2+b^2=c^2$`, `$$ … $$`, numbered `$$[3.5]`, or a ` ```math ` block |
+| **Maths** (KaTeX) | `$a^2+b^2=c^2$`, `$$ … $$`, numbered `$$[3.5]`, or a ` ```math ` / ` ```latex ` / ` ```tex ` block |
 | **Chemistry** | `$\ce{CO2 + H2O <=> H2CO3}$` |
 | **Diagrams** (Mermaid) | A ` ```mermaid ` block: flowcharts, sequence diagrams, timelines, mind maps, Gantt and pie charts |
 | **Callouts** | `> [!NOTE]`, `[!TIP]`, `[!IMPORTANT]`, `[!WARNING]`, `[!CAUTION]` (and Obsidian's names); add `-` or `+` to make them foldable |

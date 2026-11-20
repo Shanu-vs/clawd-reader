@@ -77,6 +77,8 @@ Inline maths like $a^2 + b^2 = c^2$, or a GitHub-style block:
 \int_0^\infty e^{-x^2}\,dx = \frac{\sqrt{\pi}}{2}
 ```
 
+A ` ```latex ` or ` ```tex ` block is drawn the same way, unless it holds a whole LaTeX document (`\documentclass`, `\begin{document}`), which stays as code.
+
 Chemistry with `\ce{...}`: $\ce{CO2 + H2O <=> H2CO3}$ and $\ce{Fe^{3+} + 3OH- -> Fe(OH)3 v}$.
 
 ## Emoji

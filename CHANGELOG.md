@@ -2,6 +2,11 @@
 
 All notable changes to MD Reader are listed here. Versions follow [semantic versioning](https://semver.org); installers are on the [Releases page](https://github.com/Shanu-vs/md-reader/releases).
 
+## [Unreleased]
+
+### Changed
+- ` ```latex ` and ` ```tex ` blocks are drawn as maths, like ` ```math `. A block holding a whole LaTeX document (`\documentclass`, `\begin{document}`) stays as code.
+
 ## [0.5.0] - 2026-11-19
 
 ### Added

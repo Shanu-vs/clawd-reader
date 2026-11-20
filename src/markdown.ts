@@ -10,7 +10,7 @@
 // Plus the formats people bring from GitHub, Obsidian and Typora:
 //   --- YAML front matter ---          hidden (title/subtitle/author used for the title block)
 //   ```mermaid                         flowcharts and other diagrams (drawn later by diagrams.ts)
-//   ```math                            display maths, like on GitHub
+//   ```math  (or ```latex / ```tex)    display maths, like on GitHub
 //   $\ce{H2O}$                         chemistry (KaTeX mhchem)
 //   > [!NOTE] / [!TIP] / [!WARNING]    callouts (GitHub alerts and Obsidian callouts, foldable with + / -)
 //   text[^1] ... [^1]: note            footnotes
@@ -125,13 +125,17 @@ function mathPlugin(md: MarkdownIt): void {
   };
 }
 
-// ---------- ```math and ```mermaid fences ----------
+// ---------- ```math (also ```latex / ```tex) and ```mermaid fences ----------
+const MATH_FENCES = new Set(["math", "latex", "tex"]);
+// A whole LaTeX document in a ```latex fence is source to read, not an equation to draw.
+const LATEX_DOCUMENT = /\\(documentclass|begin\s*\{document\}|usepackage)\b/;
+
 function fencePlugin(md: MarkdownIt): void {
   const plain = md.renderer.rules.fence!;
   md.renderer.rules.fence = (tokens, idx, options, env, self) => {
     const tok = tokens[idx];
     const lang = tok.info.trim().split(/\s+/)[0].toLowerCase();
-    if (lang === "math") {
+    if (MATH_FENCES.has(lang) && (lang === "math" || !LATEX_DOCUMENT.test(tok.content))) {
       return `<div class="math-display"><div class="math-body">${tex(tok.content, true)}</div></div>\n`;
     }
     if (lang === "mermaid") {

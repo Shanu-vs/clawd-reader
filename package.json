@@ -2,7 +2,7 @@
   "name": "md-reader",
   "private": true,
   "license": "MIT",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "A calm, lightweight desktop Markdown reader with a live starfield background.",
   "type": "module",
   "scripts": {

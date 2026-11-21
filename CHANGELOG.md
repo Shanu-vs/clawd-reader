@@ -2,7 +2,7 @@
 
 All notable changes to MD Reader are listed here. Versions follow [semantic versioning](https://semver.org); installers are on the [Releases page](https://github.com/Shanu-vs/md-reader/releases).
 
-## [Unreleased]
+## [0.5.2] - 2026-11-21
 
 ### Fixed
 - Pressing and holding on the wallpaper and then dragging no longer highlights the page text in blue. Selecting text by dragging over the text itself still works.
@@ -65,6 +65,7 @@ All notable changes to MD Reader are listed here. Versions follow [semantic vers
 
 - First version of the desktop app.
 
+[0.5.2]: https://github.com/Shanu-vs/md-reader/releases/tag/v0.5.2
 [0.5.1]: https://github.com/Shanu-vs/md-reader/releases/tag/v0.5.1
 [0.5.0]: https://github.com/Shanu-vs/md-reader/releases/tag/v0.5.0
 [0.4.0]: https://github.com/Shanu-vs/md-reader/releases/tag/v0.4.0

@@ -38,6 +38,7 @@ export class WallpaperHost {
   private downAt = 0;
   private scrollingUntil = 0;
   private reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  private pressOnBackground = false; // a press that started on the wallpaper must not select page text
 
   constructor(
     private canvas: HTMLCanvasElement,
@@ -59,6 +60,7 @@ export class WallpaperHost {
     window.addEventListener("blur", () => (this.mouse.active = false));
     window.addEventListener("pointerdown", (e) => {
       if (e.button !== 0 || !this.isClickOnBackground(e.target)) return;
+      this.pressOnBackground = true;
       this.mouse.x = e.clientX;
       this.mouse.y = e.clientY;
       this.mouse.down = getSettings().clickEffect !== "none";
@@ -69,7 +71,12 @@ export class WallpaperHost {
     const release = () => {
       this.mouse.down = false;
       this.mouse.held = false;
+      this.pressOnBackground = false;
     };
+    // Dragging from the wallpaper across the page would otherwise highlight the text in blue.
+    document.addEventListener("selectstart", (e) => {
+      if (this.pressOnBackground) e.preventDefault();
+    });
     window.addEventListener("pointerup", release);
     window.addEventListener("pointercancel", release);
     window.addEventListener("blur", release);

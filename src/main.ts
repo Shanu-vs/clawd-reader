@@ -146,6 +146,7 @@ function loadDocument(text: string, name: string, opts: LoadOptions = {}): void 
     scroller.scrollTop = restoreScroll;
     scroller.style.scrollBehavior = "";
     updateProgress();
+    rememberReadingPlace();
     contents.highlight();
   };
   restore();
@@ -292,11 +293,48 @@ function updateProgress(): void {
   progressBar.style.width = `${max > 0 ? (scroller.scrollTop / max) * 100 : 100}%`;
 }
 
+// ---------- Keep your place when the text column changes width ----------
+// Docking the contents or settings panel (or resizing the window) rewraps the text, so the
+// same scroll position would show a different part of the page. Remember the block at the
+// top of the view and how far into it you are, and put it back after every width change.
+let readingPlace: { el: Element; frac: number } | null = null;
+let docWidth = 0;
+
+function rememberReadingPlace(): void {
+  if (scroller.scrollTop <= 0) {
+    readingPlace = null; // at the very top: stay at the top
+    return;
+  }
+  const top = scroller.getBoundingClientRect().top;
+  for (const el of Array.from(doc.children)) {
+    const r = el.getBoundingClientRect();
+    if (r.bottom > top) {
+      readingPlace = { el, frac: r.height ? (top - r.top) / r.height : 0 };
+      return;
+    }
+  }
+  readingPlace = null;
+}
+
+new ResizeObserver(() => {
+  const width = doc.clientWidth;
+  if (width === docWidth) return;
+  docWidth = width;
+  if (!readingPlace?.el.isConnected) return;
+  const r = readingPlace.el.getBoundingClientRect();
+  const shift = r.top + readingPlace.frac * r.height - scroller.getBoundingClientRect().top;
+  if (Math.abs(shift) < 1) return;
+  scroller.style.scrollBehavior = "auto";
+  scroller.scrollTop += shift;
+  scroller.style.scrollBehavior = "";
+}).observe(doc);
 
 scroller.addEventListener(
   "scroll",
   () => {
     updateProgress();
+    // Scrolls caused by a width change keep the place found before it.
+    if (doc.clientWidth === docWidth) rememberReadingPlace();
     wallpaper.noteScroll();
     if (!toc.hidden) contents.highlight();
     clearTimeout(saveTimer);

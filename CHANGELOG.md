@@ -7,6 +7,9 @@ All notable changes to MD Reader are listed here. Versions follow [semantic vers
 ### Changed
 - ` ```latex ` and ` ```tex ` blocks are drawn as maths, like ` ```math `. A block holding a whole LaTeX document (`\documentclass`, `\begin{document}`) stays as code.
 
+### Fixed
+- Opening or closing the Contents panel (or docking Settings, or resizing the window) no longer jumps the page further down or up; the part you are reading stays in place.
+
 ## [0.5.0] - 2026-11-19
 
 ### Added
